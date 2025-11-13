@@ -1,0 +1,24 @@
+package dev.giba.acmebank.infra.persistence.repository;
+
+import dev.giba.acmebank.infra.persistence.entity.AccountEntity;
+import jakarta.persistence.LockModeType;
+import jakarta.persistence.QueryHint;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Lock;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.QueryHints;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
+@Repository
+public interface AccountRepository extends JpaRepository<AccountEntity, Long> {
+    @Query("FROM AccountEntity a WHERE a.number = :number")
+    Optional<AccountEntity> findByNumber(@Param("number") final String number);
+
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @QueryHints({ @QueryHint(name = "jakarta.persistence.lock.timeout", value = "5000") })
+    @Query("FROM AccountEntity a WHERE a.number = :number")
+    Optional<AccountEntity> findByNumberForUpdate(@Param("number") final String number);
+}
