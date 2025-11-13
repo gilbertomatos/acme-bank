@@ -1,7 +1,7 @@
 package dev.giba.acmebank.infra.persistence.adapter;
 
 import dev.giba.acmebank.domain.entity.Account;
-import dev.giba.acmebank.domain.entity.Transaction;
+import dev.giba.acmebank.domain.entity.AccountTransaction;
 import dev.giba.acmebank.domain.entity.TransactionType;
 import dev.giba.acmebank.infra.persistence.entity.AccountEntity;
 import dev.giba.acmebank.infra.persistence.entity.TransactionEntity;
@@ -55,7 +55,7 @@ class AccountEntityGatewayAdapterTest {
         var amount = BigDecimal.TEN;
         var description = "Return of investments";
 
-        var transaction = new Transaction(transactionType, amount, description);
+        var transaction = new AccountTransaction(transactionType, amount, description);
         var account = new Account(id, number, balance, List.of(transaction));
 
         //When

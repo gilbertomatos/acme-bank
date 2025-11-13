@@ -73,6 +73,11 @@ curl --location 'http://localhost:8080/api/accounts' --form 'accountNumber="<acc
 curl --location 'http://localhost:8080/api/accounts/<acount number>/deposit' --form 'amount="<amount>"'
 ```
 
+#### How to get the account statement:
+```bash
+curl --location 'http://localhost:8080/api/accounts/<acount number>/statement'
+```
+
 ---
 
 📜 License

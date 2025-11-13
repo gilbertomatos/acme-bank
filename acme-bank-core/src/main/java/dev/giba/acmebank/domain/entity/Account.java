@@ -7,12 +7,12 @@ public record Account(
         Long id,
         String number,
         BigDecimal balance,
-        List<Transaction> transactions
+        List<AccountTransaction> transactions
 ) {
 
     public Account addTransaction(final TransactionType type, final BigDecimal amount, final String description) {
         var updatedTransactions = new java.util.ArrayList<>(transactions);
-        updatedTransactions.add(new Transaction(type, amount, description));
+        updatedTransactions.add(new AccountTransaction(type, amount, description));
         return new Account(id, number, balance, updatedTransactions);
     }
 
@@ -20,7 +20,7 @@ public record Account(
         if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0)
             throw new IllegalArgumentException("A valid amount is mandatory");
         var updatedTransactions = new java.util.ArrayList<>(transactions);
-        updatedTransactions.add(new Transaction(TransactionType.DEPOSIT, amount,
+        updatedTransactions.add(new AccountTransaction(TransactionType.DEPOSIT, amount,
                 "Deposit successfully completed"));
         return new Account(id, number, balance.add(amount), updatedTransactions);
     }
@@ -31,7 +31,7 @@ public record Account(
         if (balance.compareTo(amount) < 0)
             throw new IllegalArgumentException("Insufficient balance");
         var updatedTransactions = new java.util.ArrayList<>(transactions);
-        updatedTransactions.add(new Transaction(TransactionType.WITHDRAW, amount,
+        updatedTransactions.add(new AccountTransaction(TransactionType.WITHDRAW, amount,
                 "Withdraw successfully completed"));
         return new Account(id, number, balance.subtract(amount), updatedTransactions);
     }

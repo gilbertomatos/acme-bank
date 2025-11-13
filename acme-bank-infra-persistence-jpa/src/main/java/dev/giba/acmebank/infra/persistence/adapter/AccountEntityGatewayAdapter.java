@@ -1,7 +1,7 @@
 package dev.giba.acmebank.infra.persistence.adapter;
 
 import dev.giba.acmebank.domain.entity.Account;
-import dev.giba.acmebank.domain.entity.Transaction;
+import dev.giba.acmebank.domain.entity.AccountTransaction;
 import dev.giba.acmebank.domain.entity.TransactionType;
 import dev.giba.acmebank.domain.gateway.AccountEntityGateway;
 import dev.giba.acmebank.infra.persistence.entity.AccountEntity;
@@ -45,7 +45,7 @@ public class AccountEntityGatewayAdapter implements AccountEntityGateway {
     private Account toDomain(final AccountEntity accountEntity) {
         Objects.requireNonNull(accountEntity, "accountEntity is required");
         var txs = accountEntity.getTransactions().stream()
-                .map(t -> new Transaction(TransactionType.valueOf(t.getType()), t.getAmount(),
+                .map(t -> new AccountTransaction(TransactionType.valueOf(t.getType()), t.getAmount(),
                         t.getTimestamp(), t.getDescription()))
                 .toList();
         return new Account(accountEntity.getId(), accountEntity.getNumber(), accountEntity.getBalance(), txs);

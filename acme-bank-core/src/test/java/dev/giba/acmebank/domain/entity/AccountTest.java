@@ -18,7 +18,7 @@ class AccountTest {
         var id = Long.MAX_VALUE;
         var number = "00011";
         var balance = BigDecimal.ONE;
-        var transactions = Collections.<Transaction>emptyList();
+        var transactions = Collections.<AccountTransaction>emptyList();
         var amount = BigDecimal.ZERO;
 
         //When
@@ -37,7 +37,7 @@ class AccountTest {
         var id = Long.MAX_VALUE;
         var number = "0001";
         var balance = BigDecimal.ZERO;
-        var transactions = Collections.<Transaction>emptyList();
+        var transactions = Collections.<AccountTransaction>emptyList();
         var amount = BigDecimal.TEN;
 
         //When
@@ -59,7 +59,7 @@ class AccountTest {
         var id = Long.MAX_VALUE;
         var number = "00012";
         var balance = BigDecimal.TEN;
-        var transactions = Collections.<Transaction>emptyList();
+        var transactions = Collections.<AccountTransaction>emptyList();
         var amount = BigDecimal.ZERO;
 
         //When
@@ -78,7 +78,7 @@ class AccountTest {
         var id = Long.MAX_VALUE;
         var number = "00014";
         var balance = BigDecimal.ONE;
-        var transactions = Collections.<Transaction>emptyList();
+        var transactions = Collections.<AccountTransaction>emptyList();
         var amount = BigDecimal.TWO;
 
         //When
@@ -97,7 +97,7 @@ class AccountTest {
         var id = Long.MAX_VALUE;
         var number = "00015";
         var balance = BigDecimal.TEN;
-        var transactions = Collections.<Transaction>emptyList();
+        var transactions = Collections.<AccountTransaction>emptyList();
         var amount = BigDecimal.TWO;
 
         //When
@@ -119,7 +119,7 @@ class AccountTest {
         var id = Long.MAX_VALUE;
         var number = "0007";
         var balance = BigDecimal.ZERO;
-        var transactions = Collections.<Transaction>emptyList();
+        var transactions = Collections.<AccountTransaction>emptyList();
         var amount = BigDecimal.TEN;
 
         //When

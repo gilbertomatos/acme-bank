@@ -2,11 +2,11 @@ package dev.giba.acmebank.config;
 
 import dev.giba.acmebank.application.boundary.input.CreateAccountUseCaseInput;
 import dev.giba.acmebank.application.boundary.input.DepositUseCaseInput;
+import dev.giba.acmebank.application.boundary.input.GetAccountStatementUseCaseInput;
 import dev.giba.acmebank.application.boundary.output.CreateAccountUseCaseOutput;
 import dev.giba.acmebank.application.boundary.output.DepositUseCaseOutput;
-import dev.giba.acmebank.application.usecase.CreateAccountUseCase;
-import dev.giba.acmebank.application.usecase.Transaction;
-import dev.giba.acmebank.application.usecase.DepositUseCase;
+import dev.giba.acmebank.application.boundary.output.GetAccountStatementUseCaseOutput;
+import dev.giba.acmebank.application.usecase.*;
 import dev.giba.acmebank.domain.gateway.AccountEntityGateway;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,5 +27,14 @@ public class ApplicationUseCaseConfig {
                                                    final AccountEntityGateway accountEntityGateway,
                                                    final Transaction transaction) {
         return new DepositUseCase(depositUseCaseOutput, accountEntityGateway, transaction);
+    }
+
+    @Bean
+    public GetAccountStatementUseCaseInput getAccountStatementUseCaseInput(
+            final GetAccountStatementUseCaseOutput getAccountStatementUseCaseOutput,
+            final AccountEntityGateway accountEntityGateway,
+            final ReadOnlyTransaction readOnlyTransaction) {
+        return new GetAccountStatementUseCase(getAccountStatementUseCaseOutput, accountEntityGateway,
+                readOnlyTransaction);
     }
 }
