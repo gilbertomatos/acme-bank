@@ -13,7 +13,6 @@ It provides basic banking operations:
 - 📓 Create account
 - 💰 Deposit
 - 💸 Withdraw
-- 🔁 Transfer between accounts
 - 🧾 Transaction history (statement)
 
 All operations are designed to be **thread-safe** and **transactionally consistent**, even under **high concurrency** (many users transferring money simultaneously).
