@@ -43,7 +43,7 @@ public class GetAccountStatementUseCase implements GetAccountStatementUseCaseInp
             optAccount.ifPresentOrElse( account -> this.getAccountStatementUseCaseOutput.execute(
                     Result.success(new GetAccountStatementResponse(account.number(), account.balance(),
                             account.transactions().stream()
-                                    .map(AccountTransaction::getLine).collect(Collectors.toList())
+                                    .map(AccountTransaction::format).collect(Collectors.toList())
                     )
             )), () -> this.getAccountStatementUseCaseOutput.execute(Result.failure(List.of("Account not found"))));
 

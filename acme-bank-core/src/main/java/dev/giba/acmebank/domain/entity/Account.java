@@ -21,7 +21,7 @@ public record Account(
             throw new IllegalArgumentException("A valid amount is mandatory");
         var updatedTransactions = new java.util.ArrayList<>(transactions);
         updatedTransactions.add(new AccountTransaction(TransactionType.DEPOSIT, amount,
-                "Deposit successfully completed"));
+                "Deposited amount"));
         return new Account(id, number, balance.add(amount), updatedTransactions);
     }
 
@@ -32,7 +32,7 @@ public record Account(
             throw new IllegalArgumentException("Insufficient balance");
         var updatedTransactions = new java.util.ArrayList<>(transactions);
         updatedTransactions.add(new AccountTransaction(TransactionType.WITHDRAW, amount,
-                "Withdraw successfully completed"));
+                "Amount withdrawn"));
         return new Account(id, number, balance.subtract(amount), updatedTransactions);
     }
 }

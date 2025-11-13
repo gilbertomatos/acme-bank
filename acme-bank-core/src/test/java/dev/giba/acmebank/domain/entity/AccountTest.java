@@ -49,7 +49,7 @@ class AccountTest {
         assertEquals(1, updatedAccount.transactions().size());
         assertEquals(TransactionType.DEPOSIT, updatedAccount.transactions().getFirst().type());
         assertEquals(amount, updatedAccount.transactions().getFirst().amount());
-        assertEquals("Deposit successfully completed", updatedAccount.transactions().getFirst().description());
+        assertEquals("Deposited amount", updatedAccount.transactions().getFirst().description());
     }
 
     @Test
@@ -109,7 +109,7 @@ class AccountTest {
         assertEquals(1, updatedAccount.transactions().size());
         assertEquals(TransactionType.WITHDRAW, updatedAccount.transactions().getFirst().type());
         assertEquals(amount, updatedAccount.transactions().getFirst().amount());
-        assertEquals("Withdraw successfully completed", updatedAccount.transactions().getFirst().description());
+        assertEquals("Amount withdrawn", updatedAccount.transactions().getFirst().description());
     }
 
     @Test

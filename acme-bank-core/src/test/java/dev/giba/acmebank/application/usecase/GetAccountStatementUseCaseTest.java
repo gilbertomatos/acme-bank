@@ -142,8 +142,9 @@ class GetAccountStatementUseCaseTest {
         assertTrue(this.resultArgumentCaptor.getValue().isSuccess());
         assertEquals(number, this.resultArgumentCaptor.getValue().value().accountNumber());
         assertEquals(balance, this.resultArgumentCaptor.getValue().value().balance());
-        assertEquals(1, this.resultArgumentCaptor.getValue().value().lines().size());
-        assertEquals(accountTransaction.getLine(), this.resultArgumentCaptor.getValue().value().lines().getFirst());
+        assertEquals(1, this.resultArgumentCaptor.getValue().value().transactions().size());
+        assertEquals(accountTransaction.format(), this.resultArgumentCaptor.getValue().value()
+                .transactions().getFirst());
     }
 
     private void stubMockedAtomicExecutor() {

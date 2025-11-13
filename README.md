@@ -63,6 +63,12 @@ This project follows the **Clean Architecture** pattern to achieve separation of
 
 Steps
 
+#### How to run
+```bash
+./mvnw clean install -DskipTests
+./mvnw -pl acme-bank-app-rest-api -am spring-boot:run
+```
+
 #### How to create an account:
 ```bash
 curl --location 'http://localhost:8080/api/accounts' --form 'accountNumber="<accountNumber>"'
@@ -77,7 +83,10 @@ curl --location 'http://localhost:8080/api/accounts/<acount number>/deposit' --f
 ```bash
 curl --location 'http://localhost:8080/api/accounts/<acount number>/statement'
 ```
-
+#### How to make a withdrawal:
+```bash
+curl --location 'http://localhost:8080/api/accounts/<acount number>/withdraw' --form 'amount="<amount>"'
+```
 ---
 
 📜 License

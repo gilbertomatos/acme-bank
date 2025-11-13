@@ -12,8 +12,8 @@ public record AccountTransaction(TransactionType type,
         this(type, amount, LocalDateTime.now(), description);
     }
 
-    public String getLine() {
-        var formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+    public String format() {
+        var formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
         return String.format("%s - %s -> $%s", timestamp.format(formatter), description, amount);
     }
 

@@ -3,9 +3,11 @@ package dev.giba.acmebank.config;
 import dev.giba.acmebank.application.boundary.input.CreateAccountUseCaseInput;
 import dev.giba.acmebank.application.boundary.input.DepositUseCaseInput;
 import dev.giba.acmebank.application.boundary.input.GetAccountStatementUseCaseInput;
+import dev.giba.acmebank.application.boundary.input.WithdrawUseCaseInput;
 import dev.giba.acmebank.application.boundary.output.CreateAccountUseCaseOutput;
 import dev.giba.acmebank.application.boundary.output.DepositUseCaseOutput;
 import dev.giba.acmebank.application.boundary.output.GetAccountStatementUseCaseOutput;
+import dev.giba.acmebank.application.boundary.output.WithdrawUseCaseOutput;
 import dev.giba.acmebank.application.usecase.*;
 import dev.giba.acmebank.domain.gateway.AccountEntityGateway;
 import org.springframework.context.annotation.Bean;
@@ -36,5 +38,12 @@ public class ApplicationUseCaseConfig {
             final ReadOnlyTransaction readOnlyTransaction) {
         return new GetAccountStatementUseCase(getAccountStatementUseCaseOutput, accountEntityGateway,
                 readOnlyTransaction);
+    }
+
+    @Bean
+    public WithdrawUseCaseInput withdrawUseCaseInput(final WithdrawUseCaseOutput withdrawUseCaseOutput,
+                                                    final AccountEntityGateway accountEntityGateway,
+                                                    final Transaction transaction) {
+        return new WithdrawUseCase(withdrawUseCaseOutput, accountEntityGateway, transaction);
     }
 }
