@@ -97,3 +97,4 @@ Feel free to use, modify, and share it.
 — Robert C. Martin (Uncle Bob)
 
 ---
+[![Java CI with Maven](https://github.com/gilbertomatos/acme-bank/actions/workflows/maven.yml/badge.svg)](https://github.com/gilbertomatos/acme-bank/actions/workflows/maven.yml)
