@@ -28,6 +28,6 @@ public class DepositController {
     public ResponseEntity<ViewModel> deposit(@PathVariable("accountNumber") String accountNumber,
                                              @RequestParam("amount") BigDecimal amount) {
         this.depositUseCaseInput.execute(new DepositRequest(accountNumber, amount));
-        return this.depositPresenter.present();
+        return this.depositPresenter.getViewModel();
     }
 }

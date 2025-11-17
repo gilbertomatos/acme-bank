@@ -34,7 +34,7 @@ public class WithdrawUseCase implements WithdrawUseCaseInput {
         var requestModelErrors = this.validateRequestModel(withdrawRequest);
 
         if (!requestModelErrors.isEmpty()) {
-            this.withdrawUseCaseOutput.execute(Result.failure(requestModelErrors));
+            this.withdrawUseCaseOutput.present(Result.failure(requestModelErrors));
             return;
         }
 
@@ -45,13 +45,13 @@ public class WithdrawUseCase implements WithdrawUseCaseInput {
                 try {
                     var updatedAccount = account.withdraw(withdrawRequest.amount());
                     this.accountEntityGateway.save(updatedAccount);
-                    this.withdrawUseCaseOutput.execute(Result.success(new WithdrawResponse(updatedAccount.number(),
+                    this.withdrawUseCaseOutput.present(Result.success(new WithdrawResponse(updatedAccount.number(),
                             updatedAccount.balance())));
                 } catch (IllegalArgumentException e) {
-                    this.withdrawUseCaseOutput.execute(Result.failure(List.of(e.getMessage())));
+                    this.withdrawUseCaseOutput.present(Result.failure(List.of(e.getMessage())));
                 }
 
-            }, () -> this.withdrawUseCaseOutput.execute(Result.failure(List.of("Account not found"))));
+            }, () -> this.withdrawUseCaseOutput.present(Result.failure(List.of("Account not found"))));
          
         });
 

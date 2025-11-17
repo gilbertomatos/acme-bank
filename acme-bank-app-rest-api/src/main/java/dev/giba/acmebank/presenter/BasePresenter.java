@@ -11,12 +11,12 @@ import java.util.Objects;
 public abstract class BasePresenter<T> {
     private Result<T> result;
 
-    protected void execute(final Result<T> result) {
+    protected void present(final Result<T> result) {
         Objects.requireNonNull(result, "result is required");
         this.result = result;
     }
 
-    public ResponseEntity<ViewModel> present() {
+    public ResponseEntity<ViewModel> getViewModel() {
         if (this.result.isSuccess()) {
             return ResponseEntity.ok(new ViewModel(HttpStatus.OK, this.result.value(), null));
         } else {

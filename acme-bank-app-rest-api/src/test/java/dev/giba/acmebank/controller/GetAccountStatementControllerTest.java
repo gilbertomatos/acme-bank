@@ -45,7 +45,7 @@ class GetAccountStatementControllerTest {
         var number = "890";
 
         doNothing().when(this.mockedGetAccountStatementUseCaseInput).execute(any(GetAccountStatementRequest.class));
-        when(this.mockedGetAccountStatementPresenter.present()).thenReturn(ResponseEntity.ok().build());
+        when(this.mockedGetAccountStatementPresenter.getViewModel()).thenReturn(ResponseEntity.ok().build());
 
         //When
         var response = this.getAccountStatementController.getAccountStatement(number);

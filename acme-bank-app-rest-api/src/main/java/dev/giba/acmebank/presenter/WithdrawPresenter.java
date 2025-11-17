@@ -10,8 +10,8 @@ import java.util.Objects;
 @RequestScope
 public class WithdrawPresenter extends BasePresenter<WithdrawResponse> implements WithdrawUseCaseOutput {
     @Override
-    public void execute(final Result<WithdrawResponse> withdrawResult) {
+    public void present(final Result<WithdrawResponse> withdrawResult) {
         Objects.requireNonNull(withdrawResult, "withdrawResult is required");
-        super.execute(withdrawResult);
+        super.present(withdrawResult);
     }
 }

@@ -37,7 +37,7 @@ public class CreateAccountUseCase implements CreateAccountUseCaseInput {
         var requestModelErrors = this.validateRequestModel(createAccountRequest);
 
         if (!requestModelErrors.isEmpty()) {
-            this.createAccountUseCaseOutput.execute(Result.failure(requestModelErrors));
+            this.createAccountUseCaseOutput.present(Result.failure(requestModelErrors));
             return;
         }
 
@@ -45,13 +45,13 @@ public class CreateAccountUseCase implements CreateAccountUseCaseInput {
             var optAccount = this.accountEntityGateway.findByNumber(createAccountRequest.accountNumber());
 
             optAccount.ifPresentOrElse( account ->
-                    this.createAccountUseCaseOutput.execute(
+                    this.createAccountUseCaseOutput.present(
                             Result.failure(List.of("Account already exists"))), () -> {
 
                 var newAccount = new Account(null, createAccountRequest.accountNumber(), BigDecimal.ZERO,
                         Collections.emptyList());
                 this.accountEntityGateway.save(newAccount);
-                this.createAccountUseCaseOutput.execute(Result.success(new CreateAccountResponse(newAccount.number(),
+                this.createAccountUseCaseOutput.present(Result.success(new CreateAccountResponse(newAccount.number(),
                         newAccount.balance())));
             });
 

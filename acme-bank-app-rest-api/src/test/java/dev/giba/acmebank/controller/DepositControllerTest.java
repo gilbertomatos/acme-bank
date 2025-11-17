@@ -47,7 +47,7 @@ class DepositControllerTest {
         var amount = BigDecimal.TEN;
 
         doNothing().when(this.mockedDepositUseCaseInput).execute(any(DepositRequest.class));
-        when(this.mockedDepositPresenter.present()).thenReturn(ResponseEntity.ok().build());
+        when(this.mockedDepositPresenter.getViewModel()).thenReturn(ResponseEntity.ok().build());
 
         //When
         var response = this.depositController.deposit(number, amount);

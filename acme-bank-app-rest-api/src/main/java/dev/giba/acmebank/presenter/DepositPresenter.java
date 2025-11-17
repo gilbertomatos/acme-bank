@@ -12,8 +12,8 @@ import java.util.Objects;
 @RequestScope
 public class DepositPresenter extends BasePresenter<DepositResponse> implements DepositUseCaseOutput {
     @Override
-    public void execute(final Result<DepositResponse> depositResult) {
+    public void present(final Result<DepositResponse> depositResult) {
         Objects.requireNonNull(depositResult, "depositResult is required");
-        super.execute(depositResult);
+        super.present(depositResult);
     }
 }

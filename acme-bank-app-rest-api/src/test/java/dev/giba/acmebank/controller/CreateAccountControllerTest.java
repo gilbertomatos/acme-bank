@@ -45,7 +45,7 @@ class CreateAccountControllerTest {
         var number = "890";
 
         doNothing().when(this.mockedCreateAccountUseCaseInput).execute(any(CreateAccountRequest.class));
-        when(this.mockedCreateAccountPresenter.present()).thenReturn(ResponseEntity.ok().build());
+        when(this.mockedCreateAccountPresenter.getViewModel()).thenReturn(ResponseEntity.ok().build());
 
         //When
         var response = this.createAccountController.createAccount(number);

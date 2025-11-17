@@ -11,8 +11,8 @@ import java.util.Objects;
 public class GetAccountStatementPresenter extends BasePresenter<GetAccountStatementResponse>
         implements GetAccountStatementUseCaseOutput {
     @Override
-    public void execute(final Result<GetAccountStatementResponse> getAccountStatementResult) {
+    public void present(final Result<GetAccountStatementResponse> getAccountStatementResult) {
         Objects.requireNonNull(getAccountStatementResult, "getAccountStatementResult is required");
-        super.execute(getAccountStatementResult);
+        super.present(getAccountStatementResult);
     }
 }

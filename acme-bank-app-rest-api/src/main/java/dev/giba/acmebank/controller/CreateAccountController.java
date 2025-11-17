@@ -28,6 +28,6 @@ public class CreateAccountController {
     @PostMapping
     public ResponseEntity<ViewModel> createAccount(@RequestParam("accountNumber") String accountNumber) {
         this.createAccountUseCaseInput.execute(new CreateAccountRequest(accountNumber));
-        return this.createAccountPresenter.present();
+        return this.createAccountPresenter.getViewModel();
     }
 }

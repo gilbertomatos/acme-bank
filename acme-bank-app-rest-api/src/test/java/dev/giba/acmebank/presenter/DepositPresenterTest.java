@@ -34,8 +34,8 @@ class DepositPresenterTest {
         var result = Result.success(depositResponse);
 
         //When
-        this.depositPresenter.execute(result);
-        var viewModel = this.depositPresenter.present();
+        this.depositPresenter.present(result);
+        var viewModel = this.depositPresenter.getViewModel();
 
         //Then
         assertNotNull(viewModel);
@@ -53,8 +53,8 @@ class DepositPresenterTest {
         final Result<DepositResponse> result = Result.failure(List.of("Error 1"));
 
         //When
-        this.depositPresenter.execute(result);
-        var viewModel = this.depositPresenter.present();
+        this.depositPresenter.present(result);
+        var viewModel = this.depositPresenter.getViewModel();
 
         //Then
         assertNotNull(viewModel);

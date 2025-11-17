@@ -61,7 +61,7 @@ class DepositUseCaseTest {
 
         //Then
         verify(this.mockedDepositUseCaseOutput, times(1))
-                .execute(this.resultArgumentCaptor.capture());
+                .present(this.resultArgumentCaptor.capture());
 
         assertTrue(this.resultArgumentCaptor.getValue().isFailure());
         assertThat(this.resultArgumentCaptor.getValue().errors())
@@ -81,7 +81,7 @@ class DepositUseCaseTest {
 
         //Then
         verify(this.mockedDepositUseCaseOutput, times(1))
-                .execute(this.resultArgumentCaptor.capture());
+                .present(this.resultArgumentCaptor.capture());
 
         assertTrue(this.resultArgumentCaptor.getValue().isFailure());
         assertThat(this.resultArgumentCaptor.getValue().errors())
@@ -100,7 +100,7 @@ class DepositUseCaseTest {
 
         //Then
         verify(this.mockedDepositUseCaseOutput, times(1))
-                .execute(this.resultArgumentCaptor.capture());
+                .present(this.resultArgumentCaptor.capture());
 
         assertTrue(this.resultArgumentCaptor.getValue().isFailure());
         assertThat(this.resultArgumentCaptor.getValue().errors())
@@ -120,7 +120,7 @@ class DepositUseCaseTest {
 
         //Then
         verify(this.mockedDepositUseCaseOutput, times(1))
-                .execute(this.resultArgumentCaptor.capture());
+                .present(this.resultArgumentCaptor.capture());
 
         assertTrue(this.resultArgumentCaptor.getValue().isFailure());
         assertThat(this.resultArgumentCaptor.getValue().errors())
@@ -146,7 +146,7 @@ class DepositUseCaseTest {
         verify(this.mockedTransaction, times(1)).execute(any(Runnable.class));
         verify(this.mockedAccountEntityGateway, times(1)).findByNumberForUpdate(number);
         verify(this.mockedDepositUseCaseOutput, times(1))
-                .execute(this.resultArgumentCaptor.capture());
+                .present(this.resultArgumentCaptor.capture());
 
         assertTrue(this.resultArgumentCaptor.getValue().isFailure());
         assertThat(this.resultArgumentCaptor.getValue().errors())
@@ -180,7 +180,7 @@ class DepositUseCaseTest {
         verify(this.mockedAccountEntityGateway, times(1))
                 .save(this.accountArgumentCaptor.capture());
         verify(this.mockedDepositUseCaseOutput, times(1))
-                .execute(this.resultArgumentCaptor.capture());
+                .present(this.resultArgumentCaptor.capture());
 
         assertEquals(number, this.accountArgumentCaptor.getValue().number());
         assertEquals(amount, this.accountArgumentCaptor.getValue().balance());

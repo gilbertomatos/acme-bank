@@ -34,7 +34,7 @@ public class DepositUseCase implements DepositUseCaseInput {
         var requestModelErrors = this.validateRequestModel(depositRequest);
 
         if (!requestModelErrors.isEmpty()) {
-            this.depositUseCaseOutput.execute(Result.failure(requestModelErrors));
+            this.depositUseCaseOutput.present(Result.failure(requestModelErrors));
             return;
         }
 
@@ -45,10 +45,10 @@ public class DepositUseCase implements DepositUseCaseInput {
 
                 var updatedAccount = account.deposit(depositRequest.amount());
                 this.accountEntityGateway.save(updatedAccount);
-                this.depositUseCaseOutput.execute(Result.success(new DepositResponse(updatedAccount.number(),
+                this.depositUseCaseOutput.present(Result.success(new DepositResponse(updatedAccount.number(),
                         updatedAccount.balance())));
 
-            }, () -> this.depositUseCaseOutput.execute(Result.failure(List.of("Account not found"))));
+            }, () -> this.depositUseCaseOutput.present(Result.failure(List.of("Account not found"))));
          
         });
 

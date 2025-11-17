@@ -29,6 +29,6 @@ public class WithdrawController {
     public ResponseEntity<ViewModel> withdraw(@PathVariable("accountNumber") String accountNumber,
                                              @RequestParam("amount") BigDecimal amount) {
         this.withdrawUseCaseInput.execute(new WithdrawRequest(accountNumber, amount));
-        return this.withdrawPresenter.present();
+        return this.withdrawPresenter.getViewModel();
     }
 }

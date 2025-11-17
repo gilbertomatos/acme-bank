@@ -28,6 +28,6 @@ public class GetAccountStatementController {
     @GetMapping("/{accountNumber}/statement")
     public ResponseEntity<ViewModel> getAccountStatement(@PathVariable("accountNumber") String accountNumber) {
         this.getAccountStatementUseCaseInput.execute(new GetAccountStatementRequest(accountNumber));
-        return this.getAccountStatementPresenter.present();
+        return this.getAccountStatementPresenter.getViewModel();
     }
 }

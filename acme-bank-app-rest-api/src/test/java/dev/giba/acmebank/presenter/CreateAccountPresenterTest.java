@@ -34,8 +34,8 @@ class CreateAccountPresenterTest {
         var result = Result.success(createAccountResponse);
 
         //When
-        this.createAccountPresenter.execute(result);
-        var viewModel = this.createAccountPresenter.present();
+        this.createAccountPresenter.present(result);
+        var viewModel = this.createAccountPresenter.getViewModel();
 
         //Then
         assertNotNull(viewModel);
@@ -53,8 +53,8 @@ class CreateAccountPresenterTest {
         final Result<CreateAccountResponse> result = Result.failure(List.of("Error 2"));
 
         //When
-        this.createAccountPresenter.execute(result);
-        var viewModel = this.createAccountPresenter.present();
+        this.createAccountPresenter.present(result);
+        var viewModel = this.createAccountPresenter.getViewModel();
 
         //Then
         assertNotNull(viewModel);

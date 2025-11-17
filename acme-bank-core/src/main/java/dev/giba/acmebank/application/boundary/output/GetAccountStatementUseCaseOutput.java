@@ -1,5 +1,5 @@
 package dev.giba.acmebank.application.boundary.output;
 
 public interface GetAccountStatementUseCaseOutput {
-    void execute(final Result<GetAccountStatementResponse> getAccountStatementResponse);
+    void present(final Result<GetAccountStatementResponse> getAccountStatementResponse);
 }

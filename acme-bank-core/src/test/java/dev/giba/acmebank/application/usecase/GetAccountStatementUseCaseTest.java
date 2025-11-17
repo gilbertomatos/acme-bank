@@ -59,7 +59,7 @@ class GetAccountStatementUseCaseTest {
 
         //Then
         verify(this.mockedGetAccountStatementUseCaseOutput, times(1))
-                .execute(this.resultArgumentCaptor.capture());
+                .present(this.resultArgumentCaptor.capture());
 
         assertTrue(this.resultArgumentCaptor.getValue().isFailure());
         assertThat(this.resultArgumentCaptor.getValue().errors())
@@ -78,7 +78,7 @@ class GetAccountStatementUseCaseTest {
 
         //Then
         verify(this.mockedGetAccountStatementUseCaseOutput, times(1))
-                .execute(this.resultArgumentCaptor.capture());
+                .present(this.resultArgumentCaptor.capture());
 
         assertTrue(this.resultArgumentCaptor.getValue().isFailure());
         assertThat(this.resultArgumentCaptor.getValue().errors())
@@ -103,7 +103,7 @@ class GetAccountStatementUseCaseTest {
         verify(this.mockedReadOnlyTransaction, times(1)).execute(any(Runnable.class));
         verify(this.mockedAccountEntityGateway, times(1)).findByNumber(number);
         verify(this.mockedGetAccountStatementUseCaseOutput, times(1))
-                .execute(this.resultArgumentCaptor.capture());
+                .present(this.resultArgumentCaptor.capture());
 
         assertTrue(this.resultArgumentCaptor.getValue().isFailure());
         assertThat(this.resultArgumentCaptor.getValue().errors())
@@ -137,7 +137,7 @@ class GetAccountStatementUseCaseTest {
         verify(this.mockedAccountEntityGateway, times(1)).findByNumber(number);
 
         verify(this.mockedGetAccountStatementUseCaseOutput, times(1))
-                .execute(this.resultArgumentCaptor.capture());
+                .present(this.resultArgumentCaptor.capture());
 
         assertTrue(this.resultArgumentCaptor.getValue().isSuccess());
         assertEquals(number, this.resultArgumentCaptor.getValue().value().accountNumber());

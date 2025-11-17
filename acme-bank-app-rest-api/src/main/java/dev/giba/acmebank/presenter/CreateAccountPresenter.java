@@ -10,8 +10,8 @@ import java.util.Objects;
 @RequestScope
 public class CreateAccountPresenter extends BasePresenter<CreateAccountResponse> implements CreateAccountUseCaseOutput {
     @Override
-    public void execute(final Result<CreateAccountResponse> createAccountResult) {
+    public void present(final Result<CreateAccountResponse> createAccountResult) {
         Objects.requireNonNull(createAccountResult, "createAccountResult is required");
-        super.execute(createAccountResult);
+        super.present(createAccountResult);
     }
 }

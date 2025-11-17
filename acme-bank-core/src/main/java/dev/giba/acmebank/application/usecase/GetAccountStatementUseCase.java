@@ -34,18 +34,18 @@ public class GetAccountStatementUseCase implements GetAccountStatementUseCaseInp
         var requestModelErrors = this.validateRequestModel(getAccountStatementRequest);
 
         if (!requestModelErrors.isEmpty()) {
-            this.getAccountStatementUseCaseOutput.execute(Result.failure(requestModelErrors));
+            this.getAccountStatementUseCaseOutput.present(Result.failure(requestModelErrors));
             return;
         }
 
         this.readOnlyTransaction.execute(() -> {
             var optAccount = this.accountEntityGateway.findByNumber(getAccountStatementRequest.accountNumber());
-            optAccount.ifPresentOrElse( account -> this.getAccountStatementUseCaseOutput.execute(
+            optAccount.ifPresentOrElse( account -> this.getAccountStatementUseCaseOutput.present(
                     Result.success(new GetAccountStatementResponse(account.number(), account.balance(),
                             account.transactions().stream()
                                     .map(AccountTransaction::format).collect(Collectors.toList())
                     )
-            )), () -> this.getAccountStatementUseCaseOutput.execute(Result.failure(List.of("Account not found"))));
+            )), () -> this.getAccountStatementUseCaseOutput.present(Result.failure(List.of("Account not found"))));
 
         });
     }

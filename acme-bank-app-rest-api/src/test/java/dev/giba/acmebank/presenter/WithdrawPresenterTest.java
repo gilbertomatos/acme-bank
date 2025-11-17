@@ -34,8 +34,8 @@ class WithdrawPresenterTest {
         var result = Result.success(withdrawResponse);
 
         //When
-        this.withdrawPresenter.execute(result);
-        var viewModel = this.withdrawPresenter.present();
+        this.withdrawPresenter.present(result);
+        var viewModel = this.withdrawPresenter.getViewModel();
 
         //Then
         assertNotNull(viewModel);
@@ -53,8 +53,8 @@ class WithdrawPresenterTest {
         final Result<WithdrawResponse> result = Result.failure(List.of("Error 14"));
 
         //When
-        this.withdrawPresenter.execute(result);
-        var viewModel = this.withdrawPresenter.present();
+        this.withdrawPresenter.present(result);
+        var viewModel = this.withdrawPresenter.getViewModel();
 
         //Then
         assertNotNull(viewModel);

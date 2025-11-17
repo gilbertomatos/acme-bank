@@ -35,8 +35,8 @@ class GetAccountStatementPresenterTest {
         var result = Result.success(getAccountStatementResponse);
 
         //When
-        this.getAccountStatementPresenter.execute(result);
-        var viewModel = this.getAccountStatementPresenter.present();
+        this.getAccountStatementPresenter.present(result);
+        var viewModel = this.getAccountStatementPresenter.getViewModel();
 
         //Then
         assertNotNull(viewModel);
@@ -54,8 +54,8 @@ class GetAccountStatementPresenterTest {
         final Result<GetAccountStatementResponse> result = Result.failure(List.of("Error 3"));
 
         //When
-        this.getAccountStatementPresenter.execute(result);
-        var viewModel = this.getAccountStatementPresenter.present();
+        this.getAccountStatementPresenter.present(result);
+        var viewModel = this.getAccountStatementPresenter.getViewModel();
 
         //Then
         assertNotNull(viewModel);
