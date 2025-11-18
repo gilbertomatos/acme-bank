@@ -3,6 +3,8 @@ package dev.giba.acmebank.presenter;
 import dev.giba.acmebank.application.boundary.output.DepositResponse;
 import dev.giba.acmebank.application.boundary.output.DepositUseCaseOutput;
 import dev.giba.acmebank.application.boundary.output.Result;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
@@ -11,6 +13,11 @@ import java.util.Objects;
 @Component
 @RequestScope
 public class DepositPresenter extends BasePresenter<DepositResponse> implements DepositUseCaseOutput {
+    protected DepositPresenter(final HttpServletResponse servletResponse,
+                                     final MappingJackson2HttpMessageConverter jacksonConverter) {
+        super(servletResponse, jacksonConverter);
+    }
+
     @Override
     public void present(final Result<DepositResponse> depositResult) {
         Objects.requireNonNull(depositResult, "depositResult is required");

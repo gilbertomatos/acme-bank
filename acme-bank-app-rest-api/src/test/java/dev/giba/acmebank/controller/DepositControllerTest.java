@@ -2,7 +2,6 @@ package dev.giba.acmebank.controller;
 
 import dev.giba.acmebank.application.boundary.input.DepositRequest;
 import dev.giba.acmebank.application.boundary.input.DepositUseCaseInput;
-import dev.giba.acmebank.presenter.DepositPresenter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,19 +10,15 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.ResponseEntity;
 
 import java.math.BigDecimal;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class DepositControllerTest {
-    @Mock
-    private DepositPresenter mockedDepositPresenter;
     @Mock
     private DepositUseCaseInput mockedDepositUseCaseInput;
     @Captor
@@ -33,10 +28,9 @@ class DepositControllerTest {
 
     @BeforeEach
     void beforeEachTest() {
-        reset(this.mockedDepositPresenter);
         reset(this.mockedDepositUseCaseInput);
 
-        this.depositController = new DepositController(this.mockedDepositPresenter, this.mockedDepositUseCaseInput);
+        this.depositController = new DepositController(this.mockedDepositUseCaseInput);
     }
 
     @Test
@@ -47,14 +41,11 @@ class DepositControllerTest {
         var amount = BigDecimal.TEN;
 
         doNothing().when(this.mockedDepositUseCaseInput).execute(any(DepositRequest.class));
-        when(this.mockedDepositPresenter.getViewModel()).thenReturn(ResponseEntity.ok().build());
 
         //When
-        var response = this.depositController.deposit(number, amount);
+        this.depositController.deposit(number, amount);
 
         //Then
-        assertNotNull(response);
-
         verify(this.mockedDepositUseCaseInput, times(1))
                 .execute(this.depositRequestArgumentCaptor.capture());
 
