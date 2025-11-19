@@ -27,8 +27,8 @@ public abstract class BasePresenter<T> {
     protected void present(final Result<T> result){
         Objects.requireNonNull(result, "result is required");
 
-        try (var httpOutputMessage = new DelegatingServerHttpResponse(
-                new ServletServerHttpResponse(this.httpServletResponse))) {
+        var httpOutputMessage = new DelegatingServerHttpResponse(
+                new ServletServerHttpResponse(this.httpServletResponse));
             if (result.isSuccess()) {
                 this.write(httpOutputMessage, HttpStatus.OK,
                         new ViewModel(HttpStatus.OK, result.value(), null));
@@ -36,7 +36,6 @@ public abstract class BasePresenter<T> {
                 this.write(httpOutputMessage, HttpStatus.BAD_REQUEST,
                         new ViewModel(HttpStatus.BAD_REQUEST, null, result.errors()));
             }
-        }
     }
 
     private void write(final DelegatingServerHttpResponse httpOutputMessage, final HttpStatusCode httpStatusCode,
