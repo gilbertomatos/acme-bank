@@ -8,8 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.server.DelegatingServerHttpResponse;
 import org.springframework.http.server.ServletServerHttpResponse;
-
 import java.io.IOException;
 import java.util.Objects;
 
@@ -27,7 +27,8 @@ public abstract class BasePresenter<T> {
     protected void present(final Result<T> result){
         Objects.requireNonNull(result, "result is required");
 
-        try (var httpOutputMessage = new ServletServerHttpResponse(this.httpServletResponse)) {
+        try (var httpOutputMessage = new DelegatingServerHttpResponse(
+                new ServletServerHttpResponse(this.httpServletResponse))) {
             if (result.isSuccess()) {
                 this.write(httpOutputMessage, HttpStatus.OK,
                         new ViewModel(HttpStatus.OK, result.value(), null));
@@ -38,7 +39,7 @@ public abstract class BasePresenter<T> {
         }
     }
 
-    private void write(final ServletServerHttpResponse httpOutputMessage, final HttpStatusCode httpStatusCode,
+    private void write(final DelegatingServerHttpResponse httpOutputMessage, final HttpStatusCode httpStatusCode,
                        final ViewModel viewModel) {
         httpOutputMessage.setStatusCode(httpStatusCode);
         try {

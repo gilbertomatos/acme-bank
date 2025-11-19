@@ -15,7 +15,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
-import org.springframework.http.server.ServletServerHttpResponse;
+import org.springframework.http.server.DelegatingServerHttpResponse;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -56,14 +56,14 @@ class CreateAccountPresenterTest {
         var result = Result.success(createAccountResponse);
 
         doNothing().when(this.mockedMappingJackson2HttpMessageConverter).write(any(ViewModel.class),
-                eq(MediaType.APPLICATION_JSON), any(ServletServerHttpResponse.class));
+                eq(MediaType.APPLICATION_JSON), any(DelegatingServerHttpResponse.class));
         //When
         this.createAccountPresenter.present(result);
 
         //Then
         verify(this.mockedMappingJackson2HttpMessageConverter, times(1))
                 .write(this.viewModelArgumentCaptor.capture(),
-                        eq(MediaType.APPLICATION_JSON), any(ServletServerHttpResponse.class));
+                        eq(MediaType.APPLICATION_JSON), any(DelegatingServerHttpResponse.class));
 
         var viewModel = this.viewModelArgumentCaptor.getValue();
 
@@ -80,7 +80,7 @@ class CreateAccountPresenterTest {
         final Result<CreateAccountResponse> result = Result.failure(List.of("Error 2"));
 
         doNothing().when(this.mockedMappingJackson2HttpMessageConverter).write(any(ViewModel.class),
-                eq(MediaType.APPLICATION_JSON), any(ServletServerHttpResponse.class));
+                eq(MediaType.APPLICATION_JSON), any(DelegatingServerHttpResponse.class));
 
         //When
         this.createAccountPresenter.present(result);
@@ -89,7 +89,7 @@ class CreateAccountPresenterTest {
         //Then
         verify(this.mockedMappingJackson2HttpMessageConverter, times(1))
                 .write(this.viewModelArgumentCaptor.capture(),
-                        eq(MediaType.APPLICATION_JSON), any(ServletServerHttpResponse.class));
+                        eq(MediaType.APPLICATION_JSON), any(DelegatingServerHttpResponse.class));
 
         var viewModel = this.viewModelArgumentCaptor.getValue();
 
