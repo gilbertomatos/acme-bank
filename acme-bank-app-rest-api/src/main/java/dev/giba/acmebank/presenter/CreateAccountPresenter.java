@@ -26,6 +26,7 @@ public class CreateAccountPresenter extends BasePresenter implements CreateAccou
         super.present(ViewModel.of(HttpStatus.OK, createAccountResponse));
     }
 
+    @Override
     public void present(final List<String> errors) {
         Objects.requireNonNull(errors, "errors is required");
         super.present(ViewModel.of(HttpStatus.BAD_REQUEST, errors));
