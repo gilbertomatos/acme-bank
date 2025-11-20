@@ -1,8 +1,8 @@
-package dev.giba.acmebank.infra.persistence.repository;
+package dev.giba.acmebank.infra.persistence.jpa.repository;
 
 import dev.giba.acmebank.domain.entity.TransactionType;
-import dev.giba.acmebank.infra.persistence.entity.AccountEntity;
-import dev.giba.acmebank.infra.persistence.entity.TransactionEntity;
+import dev.giba.acmebank.infra.persistence.jpa.entity.AccountEntity;
+import dev.giba.acmebank.infra.persistence.jpa.entity.TransactionEntity;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

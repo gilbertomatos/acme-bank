@@ -1,4 +1,4 @@
-package dev.giba.acmebank.infra.persistence.transaction;
+package dev.giba.acmebank.infra.persistence.jpa.transaction;
 
 import dev.giba.acmebank.application.usecase.Transaction;
 import org.slf4j.Logger;

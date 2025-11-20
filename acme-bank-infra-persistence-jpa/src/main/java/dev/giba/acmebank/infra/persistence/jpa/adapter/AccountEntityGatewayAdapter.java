@@ -1,12 +1,12 @@
-package dev.giba.acmebank.infra.persistence.adapter;
+package dev.giba.acmebank.infra.persistence.jpa.adapter;
 
 import dev.giba.acmebank.domain.entity.Account;
 import dev.giba.acmebank.domain.entity.AccountTransaction;
 import dev.giba.acmebank.domain.entity.TransactionType;
 import dev.giba.acmebank.domain.gateway.AccountEntityGateway;
-import dev.giba.acmebank.infra.persistence.entity.AccountEntity;
-import dev.giba.acmebank.infra.persistence.entity.TransactionEntity;
-import dev.giba.acmebank.infra.persistence.repository.AccountRepository;
+import dev.giba.acmebank.infra.persistence.jpa.entity.AccountEntity;
+import dev.giba.acmebank.infra.persistence.jpa.entity.TransactionEntity;
+import dev.giba.acmebank.infra.persistence.jpa.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

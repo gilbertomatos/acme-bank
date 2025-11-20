@@ -1,4 +1,4 @@
-package dev.giba.acmebank.infra.persistence.entity;
+package dev.giba.acmebank.infra.persistence.jpa.entity;
 
 
 import jakarta.persistence.*;
