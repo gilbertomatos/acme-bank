@@ -1,7 +1,6 @@
 package dev.giba.acmebank.presenter;
 
 import dev.giba.acmebank.application.boundary.output.GetAccountStatementResponse;
-import dev.giba.acmebank.application.boundary.output.Result;
 import dev.giba.acmebank.view.ViewModel;
 import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,7 +25,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 class GetAccountStatementPresenterTest {
@@ -55,13 +53,12 @@ class GetAccountStatementPresenterTest {
         var number = "043321";
         var balance = BigDecimal.TEN;
         var getAccountStatementResponse = new GetAccountStatementResponse(number, balance, Collections.emptyList());
-        var result = Result.success(getAccountStatementResponse);
 
         doNothing().when(this.mockedMappingJackson2HttpMessageConverter).write(any(ViewModel.class),
                 eq(MediaType.APPLICATION_JSON), any(DelegatingServerHttpResponse.class));
 
         //When
-        this.getAccountStatementPresenter.present(result);
+        this.getAccountStatementPresenter.present(getAccountStatementResponse);
 
         //Then
         verify(this.mockedMappingJackson2HttpMessageConverter, times(1))
@@ -80,7 +77,7 @@ class GetAccountStatementPresenterTest {
     @DisplayName("Should present on error correctly")
     void shouldPresentOnErrorCorrectly() throws IOException {
         //Given
-        final Result<GetAccountStatementResponse> result = Result.failure(List.of("Error 3"));
+        var result = List.of("Error 3");
 
         doNothing().when(this.mockedMappingJackson2HttpMessageConverter).write(any(ViewModel.class),
                 eq(MediaType.APPLICATION_JSON), any(DelegatingServerHttpResponse.class));
@@ -96,7 +93,7 @@ class GetAccountStatementPresenterTest {
         var viewModel = this.viewModelArgumentCaptor.getValue();
 
         assertNotNull(viewModel);
-        assertEquals(HttpStatus.BAD_REQUEST, viewModel.status());
+        assertEquals(HttpStatus.NOT_FOUND, viewModel.status());
         assertNull(viewModel.data());
         assertNotNull(viewModel.errors());
     }

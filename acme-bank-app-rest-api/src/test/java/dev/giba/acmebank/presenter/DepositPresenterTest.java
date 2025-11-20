@@ -1,7 +1,6 @@
 package dev.giba.acmebank.presenter;
 
 import dev.giba.acmebank.application.boundary.output.DepositResponse;
-import dev.giba.acmebank.application.boundary.output.Result;
 import dev.giba.acmebank.view.ViewModel;
 import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 class DepositPresenterTest {
@@ -54,13 +52,12 @@ class DepositPresenterTest {
         var number = "04321";
         var balance = BigDecimal.TEN;
         var depositResponse = new DepositResponse(number, balance);
-        var result = Result.success(depositResponse);
 
         doNothing().when(this.mockedMappingJackson2HttpMessageConverter).write(any(ViewModel.class),
                 eq(MediaType.APPLICATION_JSON), any(DelegatingServerHttpResponse.class));
 
         //When
-        this.depositPresenter.present(result);
+        this.depositPresenter.present(depositResponse);
 
         //Then
         verify(this.mockedMappingJackson2HttpMessageConverter, times(1))
@@ -79,7 +76,7 @@ class DepositPresenterTest {
     @DisplayName("Should present on error correctly")
     void shouldPresentOnErrorCorrectly() throws IOException {
         //Given
-        final Result<DepositResponse> result = Result.failure(List.of("Error 1"));
+        var result = List.of("Error 1");
 
         doNothing().when(this.mockedMappingJackson2HttpMessageConverter).write(any(ViewModel.class),
                 eq(MediaType.APPLICATION_JSON), any(DelegatingServerHttpResponse.class));

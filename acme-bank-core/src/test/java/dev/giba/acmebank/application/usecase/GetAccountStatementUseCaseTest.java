@@ -1,7 +1,8 @@
 package dev.giba.acmebank.application.usecase;
 
 import dev.giba.acmebank.application.boundary.input.GetAccountStatementRequest;
-import dev.giba.acmebank.application.boundary.output.*;
+import dev.giba.acmebank.application.boundary.output.GetAccountStatementResponse;
+import dev.giba.acmebank.application.boundary.output.GetAccountStatementUseCaseOutput;
 import dev.giba.acmebank.domain.entity.Account;
 import dev.giba.acmebank.domain.entity.AccountTransaction;
 import dev.giba.acmebank.domain.entity.TransactionType;
@@ -21,7 +22,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -34,7 +34,9 @@ class GetAccountStatementUseCaseTest {
     @Mock
     private ReadOnlyTransaction mockedReadOnlyTransaction;
     @Captor
-    private ArgumentCaptor<Result<GetAccountStatementResponse>> resultArgumentCaptor;
+    private ArgumentCaptor<GetAccountStatementResponse> getAccountStatementResponseArgumentCaptor;
+    @Captor
+    private ArgumentCaptor<List<String>> listArgumentCaptor;
 
     private GetAccountStatementUseCase getAccountStatementUseCase;
 
@@ -59,10 +61,9 @@ class GetAccountStatementUseCaseTest {
 
         //Then
         verify(this.mockedGetAccountStatementUseCaseOutput, times(1))
-                .present(this.resultArgumentCaptor.capture());
+                .present(this.listArgumentCaptor.capture());
 
-        assertTrue(this.resultArgumentCaptor.getValue().isFailure());
-        assertThat(this.resultArgumentCaptor.getValue().errors())
+        assertThat(this.listArgumentCaptor.getValue())
                 .containsOnly("Account number is mandatory");
     }
 
@@ -78,10 +79,9 @@ class GetAccountStatementUseCaseTest {
 
         //Then
         verify(this.mockedGetAccountStatementUseCaseOutput, times(1))
-                .present(this.resultArgumentCaptor.capture());
+                .present(this.listArgumentCaptor.capture());
 
-        assertTrue(this.resultArgumentCaptor.getValue().isFailure());
-        assertThat(this.resultArgumentCaptor.getValue().errors())
+        assertThat(this.listArgumentCaptor.getValue())
                 .containsOnly("Account number is mandatory");
     }
 
@@ -103,10 +103,9 @@ class GetAccountStatementUseCaseTest {
         verify(this.mockedReadOnlyTransaction, times(1)).execute(any(Runnable.class));
         verify(this.mockedAccountEntityGateway, times(1)).findByNumber(number);
         verify(this.mockedGetAccountStatementUseCaseOutput, times(1))
-                .present(this.resultArgumentCaptor.capture());
+                .present(this.listArgumentCaptor.capture());
 
-        assertTrue(this.resultArgumentCaptor.getValue().isFailure());
-        assertThat(this.resultArgumentCaptor.getValue().errors())
+        assertThat(this.listArgumentCaptor.getValue())
                 .containsOnly("Account not found");
 
     }
@@ -137,13 +136,12 @@ class GetAccountStatementUseCaseTest {
         verify(this.mockedAccountEntityGateway, times(1)).findByNumber(number);
 
         verify(this.mockedGetAccountStatementUseCaseOutput, times(1))
-                .present(this.resultArgumentCaptor.capture());
+                .present(this.getAccountStatementResponseArgumentCaptor.capture());
 
-        assertTrue(this.resultArgumentCaptor.getValue().isSuccess());
-        assertEquals(number, this.resultArgumentCaptor.getValue().value().accountNumber());
-        assertEquals(balance, this.resultArgumentCaptor.getValue().value().balance());
-        assertEquals(1, this.resultArgumentCaptor.getValue().value().transactions().size());
-        assertEquals(accountTransaction.format(), this.resultArgumentCaptor.getValue().value()
+        assertEquals(number, this.getAccountStatementResponseArgumentCaptor.getValue().accountNumber());
+        assertEquals(balance, this.getAccountStatementResponseArgumentCaptor.getValue().balance());
+        assertEquals(1, this.getAccountStatementResponseArgumentCaptor.getValue().transactions().size());
+        assertEquals(accountTransaction.format(), this.getAccountStatementResponseArgumentCaptor.getValue()
                 .transactions().getFirst());
     }
 

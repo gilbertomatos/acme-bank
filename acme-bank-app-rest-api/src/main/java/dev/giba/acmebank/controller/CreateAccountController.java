@@ -3,7 +3,10 @@ package dev.giba.acmebank.controller;
 import dev.giba.acmebank.application.boundary.input.CreateAccountRequest;
 import dev.giba.acmebank.application.boundary.input.CreateAccountUseCaseInput;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Objects;
 

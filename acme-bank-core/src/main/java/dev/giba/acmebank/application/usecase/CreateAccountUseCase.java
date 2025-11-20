@@ -4,7 +4,6 @@ import dev.giba.acmebank.application.boundary.input.CreateAccountRequest;
 import dev.giba.acmebank.application.boundary.input.CreateAccountUseCaseInput;
 import dev.giba.acmebank.application.boundary.output.CreateAccountResponse;
 import dev.giba.acmebank.application.boundary.output.CreateAccountUseCaseOutput;
-import dev.giba.acmebank.application.boundary.output.Result;
 import dev.giba.acmebank.domain.entity.Account;
 import dev.giba.acmebank.domain.gateway.AccountEntityGateway;
 
@@ -37,7 +36,7 @@ public class CreateAccountUseCase implements CreateAccountUseCaseInput {
         var requestModelErrors = this.validateRequestModel(createAccountRequest);
 
         if (!requestModelErrors.isEmpty()) {
-            this.createAccountUseCaseOutput.present(Result.failure(requestModelErrors));
+            this.createAccountUseCaseOutput.present(requestModelErrors);
             return;
         }
 
@@ -46,13 +45,13 @@ public class CreateAccountUseCase implements CreateAccountUseCaseInput {
 
             optAccount.ifPresentOrElse( account ->
                     this.createAccountUseCaseOutput.present(
-                            Result.failure(List.of("Account already exists"))), () -> {
+                            List.of("Account already exists")), () -> {
 
                 var newAccount = new Account(null, createAccountRequest.accountNumber(), BigDecimal.ZERO,
                         Collections.emptyList());
                 this.accountEntityGateway.save(newAccount);
-                this.createAccountUseCaseOutput.present(Result.success(new CreateAccountResponse(newAccount.number(),
-                        newAccount.balance())));
+                this.createAccountUseCaseOutput.present(new CreateAccountResponse(newAccount.number(),
+                        newAccount.balance()));
             });
 
         });

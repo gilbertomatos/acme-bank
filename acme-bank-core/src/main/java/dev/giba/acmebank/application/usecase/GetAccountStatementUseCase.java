@@ -2,14 +2,14 @@ package dev.giba.acmebank.application.usecase;
 
 import dev.giba.acmebank.application.boundary.input.GetAccountStatementRequest;
 import dev.giba.acmebank.application.boundary.input.GetAccountStatementUseCaseInput;
-import dev.giba.acmebank.application.boundary.output.*;
+import dev.giba.acmebank.application.boundary.output.GetAccountStatementResponse;
+import dev.giba.acmebank.application.boundary.output.GetAccountStatementUseCaseOutput;
 import dev.giba.acmebank.domain.entity.AccountTransaction;
 import dev.giba.acmebank.domain.gateway.AccountEntityGateway;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class GetAccountStatementUseCase implements GetAccountStatementUseCaseInput {
     private final GetAccountStatementUseCaseOutput getAccountStatementUseCaseOutput;
@@ -34,18 +34,18 @@ public class GetAccountStatementUseCase implements GetAccountStatementUseCaseInp
         var requestModelErrors = this.validateRequestModel(getAccountStatementRequest);
 
         if (!requestModelErrors.isEmpty()) {
-            this.getAccountStatementUseCaseOutput.present(Result.failure(requestModelErrors));
+            this.getAccountStatementUseCaseOutput.present(requestModelErrors);
             return;
         }
 
         this.readOnlyTransaction.execute(() -> {
             var optAccount = this.accountEntityGateway.findByNumber(getAccountStatementRequest.accountNumber());
             optAccount.ifPresentOrElse( account -> this.getAccountStatementUseCaseOutput.present(
-                    Result.success(new GetAccountStatementResponse(account.number(), account.balance(),
+                    new GetAccountStatementResponse(account.number(), account.balance(),
                             account.transactions().stream()
-                                    .map(AccountTransaction::format).collect(Collectors.toList())
+                                    .map(AccountTransaction::format).toList()
                     )
-            )), () -> this.getAccountStatementUseCaseOutput.present(Result.failure(List.of("Account not found"))));
+            ), () -> this.getAccountStatementUseCaseOutput.present(List.of("Account not found")));
 
         });
     }

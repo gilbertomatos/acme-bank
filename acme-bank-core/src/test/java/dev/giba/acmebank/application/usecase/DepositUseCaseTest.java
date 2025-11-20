@@ -3,7 +3,6 @@ package dev.giba.acmebank.application.usecase;
 import dev.giba.acmebank.application.boundary.input.DepositRequest;
 import dev.giba.acmebank.application.boundary.output.DepositResponse;
 import dev.giba.acmebank.application.boundary.output.DepositUseCaseOutput;
-import dev.giba.acmebank.application.boundary.output.Result;
 import dev.giba.acmebank.domain.entity.Account;
 import dev.giba.acmebank.domain.gateway.AccountEntityGateway;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,10 +16,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -35,7 +35,9 @@ class DepositUseCaseTest {
     @Captor
     private ArgumentCaptor<Account> accountArgumentCaptor;
     @Captor
-    private ArgumentCaptor<Result<DepositResponse>> resultArgumentCaptor;
+    private ArgumentCaptor<DepositResponse> depositResponseArgumentCaptor;
+    @Captor
+    private ArgumentCaptor<List<String>> listArgumentCaptor;
 
     private DepositUseCase depositUseCase;
 
@@ -61,10 +63,9 @@ class DepositUseCaseTest {
 
         //Then
         verify(this.mockedDepositUseCaseOutput, times(1))
-                .present(this.resultArgumentCaptor.capture());
+                .present(this.listArgumentCaptor.capture());
 
-        assertTrue(this.resultArgumentCaptor.getValue().isFailure());
-        assertThat(this.resultArgumentCaptor.getValue().errors())
+        assertThat(this.listArgumentCaptor.getValue())
                 .containsOnly("Account number is mandatory");
     }
 
@@ -81,10 +82,9 @@ class DepositUseCaseTest {
 
         //Then
         verify(this.mockedDepositUseCaseOutput, times(1))
-                .present(this.resultArgumentCaptor.capture());
+                .present(this.listArgumentCaptor.capture());
 
-        assertTrue(this.resultArgumentCaptor.getValue().isFailure());
-        assertThat(this.resultArgumentCaptor.getValue().errors())
+        assertThat(this.listArgumentCaptor.getValue())
                 .containsOnly("Account number is mandatory");
     }
 
@@ -100,10 +100,9 @@ class DepositUseCaseTest {
 
         //Then
         verify(this.mockedDepositUseCaseOutput, times(1))
-                .present(this.resultArgumentCaptor.capture());
+                .present(this.listArgumentCaptor.capture());
 
-        assertTrue(this.resultArgumentCaptor.getValue().isFailure());
-        assertThat(this.resultArgumentCaptor.getValue().errors())
+        assertThat(this.listArgumentCaptor.getValue())
                 .containsOnly("A valid amount is mandatory");
     }
 
@@ -120,10 +119,9 @@ class DepositUseCaseTest {
 
         //Then
         verify(this.mockedDepositUseCaseOutput, times(1))
-                .present(this.resultArgumentCaptor.capture());
+                .present(this.listArgumentCaptor.capture());
 
-        assertTrue(this.resultArgumentCaptor.getValue().isFailure());
-        assertThat(this.resultArgumentCaptor.getValue().errors())
+        assertThat(this.listArgumentCaptor.getValue())
                 .containsOnly("A valid amount is mandatory");
     }
 
@@ -146,10 +144,9 @@ class DepositUseCaseTest {
         verify(this.mockedTransaction, times(1)).execute(any(Runnable.class));
         verify(this.mockedAccountEntityGateway, times(1)).findByNumberForUpdate(number);
         verify(this.mockedDepositUseCaseOutput, times(1))
-                .present(this.resultArgumentCaptor.capture());
+                .present(this.listArgumentCaptor.capture());
 
-        assertTrue(this.resultArgumentCaptor.getValue().isFailure());
-        assertThat(this.resultArgumentCaptor.getValue().errors())
+        assertThat(this.listArgumentCaptor.getValue())
                 .containsOnly("Account not found");
 
     }
@@ -180,14 +177,13 @@ class DepositUseCaseTest {
         verify(this.mockedAccountEntityGateway, times(1))
                 .save(this.accountArgumentCaptor.capture());
         verify(this.mockedDepositUseCaseOutput, times(1))
-                .present(this.resultArgumentCaptor.capture());
+                .present(this.depositResponseArgumentCaptor.capture());
 
         assertEquals(number, this.accountArgumentCaptor.getValue().number());
         assertEquals(amount, this.accountArgumentCaptor.getValue().balance());
 
-        assertTrue(this.resultArgumentCaptor.getValue().isSuccess());
-        assertEquals(number, this.resultArgumentCaptor.getValue().value().accountNumber());
-        assertEquals(amount, this.resultArgumentCaptor.getValue().value().balance());
+        assertEquals(number, this.depositResponseArgumentCaptor.getValue().accountNumber());
+        assertEquals(amount, this.depositResponseArgumentCaptor.getValue().balance());
     }
 
     private void stubMockedAtomicExecutor() {

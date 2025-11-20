@@ -1,6 +1,5 @@
 package dev.giba.acmebank.presenter;
 
-import dev.giba.acmebank.application.boundary.output.Result;
 import dev.giba.acmebank.application.boundary.output.WithdrawResponse;
 import dev.giba.acmebank.view.ViewModel;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 class WithdrawPresenterTest {
@@ -54,13 +52,12 @@ class WithdrawPresenterTest {
         var number = "043215";
         var balance = BigDecimal.TEN;
         var withdrawResponse = new WithdrawResponse(number, balance);
-        var result = Result.success(withdrawResponse);
 
         doNothing().when(this.mockedMappingJackson2HttpMessageConverter).write(any(ViewModel.class),
                 eq(MediaType.APPLICATION_JSON), any(DelegatingServerHttpResponse.class));
 
         //When
-        this.withdrawPresenter.present(result);
+        this.withdrawPresenter.present(withdrawResponse);
 
         //Then
         verify(this.mockedMappingJackson2HttpMessageConverter, times(1))
@@ -79,7 +76,7 @@ class WithdrawPresenterTest {
     @DisplayName("Should present on error correctly")
     void shouldPresentOnErrorCorrectly() throws IOException {
         //Given
-        final Result<WithdrawResponse> result = Result.failure(List.of("Error 14"));
+        var result = List.of("Error 14");
 
         doNothing().when(this.mockedMappingJackson2HttpMessageConverter).write(any(ViewModel.class),
                 eq(MediaType.APPLICATION_JSON), any(DelegatingServerHttpResponse.class));

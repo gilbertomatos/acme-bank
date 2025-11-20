@@ -2,7 +2,8 @@ package dev.giba.acmebank.application.usecase;
 
 import dev.giba.acmebank.application.boundary.input.WithdrawRequest;
 import dev.giba.acmebank.application.boundary.input.WithdrawUseCaseInput;
-import dev.giba.acmebank.application.boundary.output.*;
+import dev.giba.acmebank.application.boundary.output.WithdrawResponse;
+import dev.giba.acmebank.application.boundary.output.WithdrawUseCaseOutput;
 import dev.giba.acmebank.domain.gateway.AccountEntityGateway;
 
 import java.math.BigDecimal;
@@ -34,7 +35,7 @@ public class WithdrawUseCase implements WithdrawUseCaseInput {
         var requestModelErrors = this.validateRequestModel(withdrawRequest);
 
         if (!requestModelErrors.isEmpty()) {
-            this.withdrawUseCaseOutput.present(Result.failure(requestModelErrors));
+            this.withdrawUseCaseOutput.present(requestModelErrors);
             return;
         }
 
@@ -45,13 +46,13 @@ public class WithdrawUseCase implements WithdrawUseCaseInput {
                 try {
                     var updatedAccount = account.withdraw(withdrawRequest.amount());
                     this.accountEntityGateway.save(updatedAccount);
-                    this.withdrawUseCaseOutput.present(Result.success(new WithdrawResponse(updatedAccount.number(),
+                    this.withdrawUseCaseOutput.present((new WithdrawResponse(updatedAccount.number(),
                             updatedAccount.balance())));
                 } catch (IllegalArgumentException e) {
-                    this.withdrawUseCaseOutput.present(Result.failure(List.of(e.getMessage())));
+                    this.withdrawUseCaseOutput.present(List.of(e.getMessage()));
                 }
 
-            }, () -> this.withdrawUseCaseOutput.present(Result.failure(List.of("Account not found"))));
+            }, () -> this.withdrawUseCaseOutput.present(List.of("Account not found")));
          
         });
 

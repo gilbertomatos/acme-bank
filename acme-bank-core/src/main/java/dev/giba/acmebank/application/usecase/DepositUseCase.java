@@ -4,11 +4,12 @@ import dev.giba.acmebank.application.boundary.input.DepositRequest;
 import dev.giba.acmebank.application.boundary.input.DepositUseCaseInput;
 import dev.giba.acmebank.application.boundary.output.DepositResponse;
 import dev.giba.acmebank.application.boundary.output.DepositUseCaseOutput;
-import dev.giba.acmebank.application.boundary.output.Result;
 import dev.giba.acmebank.domain.gateway.AccountEntityGateway;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 
 public class DepositUseCase implements DepositUseCaseInput {
@@ -34,7 +35,7 @@ public class DepositUseCase implements DepositUseCaseInput {
         var requestModelErrors = this.validateRequestModel(depositRequest);
 
         if (!requestModelErrors.isEmpty()) {
-            this.depositUseCaseOutput.present(Result.failure(requestModelErrors));
+            this.depositUseCaseOutput.present(requestModelErrors);
             return;
         }
 
@@ -45,10 +46,10 @@ public class DepositUseCase implements DepositUseCaseInput {
 
                 var updatedAccount = account.deposit(depositRequest.amount());
                 this.accountEntityGateway.save(updatedAccount);
-                this.depositUseCaseOutput.present(Result.success(new DepositResponse(updatedAccount.number(),
-                        updatedAccount.balance())));
+                this.depositUseCaseOutput.present(new DepositResponse(updatedAccount.number(),
+                        updatedAccount.balance()));
 
-            }, () -> this.depositUseCaseOutput.present(Result.failure(List.of("Account not found"))));
+            }, () -> this.depositUseCaseOutput.present(List.of("Account not found")));
          
         });
 
