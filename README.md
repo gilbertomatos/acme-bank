@@ -1,4 +1,4 @@
-# 🏦 Acme Bank — Spring Boot + JPA + Clean Architecture Example
+# 🏦 Acme Bank - Spring Boot + JPA + Clean Architecture Example
 
 > A complete and elegant example of a banking system built with **Java**, **Spring Boot**, **Spring Data JPA**, and **Clean Architecture**.
 
@@ -34,7 +34,7 @@ This project follows the **Clean Architecture** pattern to achieve separation of
 | 💾 Persistence | Spring Data JPA (Hibernate)   |
 | 🧱 Database | H2 (in-memory)                |
 | 🧰 Build Tool | Maven                         |
-| 🧪 Testing | JUnit 5, Spring Test, Mockito |
+| 🧪 Testing | JUnit 6, Spring Test, Mockito |
 
 ---
 
