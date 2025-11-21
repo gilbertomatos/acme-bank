@@ -30,7 +30,7 @@ This project follows the **Clean Architecture** pattern to achieve separation of
 | Category | Technology                    |
 |-----------|-------------------------------|
 | 🧠 Language | Java 21                       |
-| ⚙️ Framework | Spring Boot 3                 |
+| ⚙️ Framework | Spring Boot 4                 |
 | 💾 Persistence | Spring Data JPA (Hibernate)   |
 | 🧱 Database | H2 (in-memory)                |
 | 🧰 Build Tool | Maven                         |

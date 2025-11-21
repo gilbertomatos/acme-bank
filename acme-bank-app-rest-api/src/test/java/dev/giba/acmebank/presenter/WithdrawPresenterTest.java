@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 import org.springframework.http.server.DelegatingServerHttpResponse;
 
 import java.io.IOException;
@@ -30,7 +30,7 @@ class WithdrawPresenterTest {
     @Mock
     private HttpServletResponse mockedHttpServletResponse;
     @Mock
-    private MappingJackson2HttpMessageConverter mockedMappingJackson2HttpMessageConverter;
+    private JacksonJsonHttpMessageConverter mockedJacksonJsonHttpMessageConverter;
     @Captor
     private ArgumentCaptor<ViewModel> viewModelArgumentCaptor;
 
@@ -39,10 +39,10 @@ class WithdrawPresenterTest {
     @BeforeEach
     void beforeEachTest() {
         reset(this.mockedHttpServletResponse);
-        reset(this.mockedMappingJackson2HttpMessageConverter);
+        reset(this.mockedJacksonJsonHttpMessageConverter);
 
         this.withdrawPresenter = new WithdrawPresenter(this.mockedHttpServletResponse,
-                this.mockedMappingJackson2HttpMessageConverter);
+                this.mockedJacksonJsonHttpMessageConverter);
     }
 
     @Test
@@ -53,14 +53,14 @@ class WithdrawPresenterTest {
         var balance = BigDecimal.TEN;
         var withdrawResponse = new WithdrawResponse(number, balance);
 
-        doNothing().when(this.mockedMappingJackson2HttpMessageConverter).write(any(ViewModel.class),
+        doNothing().when(this.mockedJacksonJsonHttpMessageConverter).write(any(ViewModel.class),
                 eq(MediaType.APPLICATION_JSON), any(DelegatingServerHttpResponse.class));
 
         //When
         this.withdrawPresenter.present(withdrawResponse);
 
         //Then
-        verify(this.mockedMappingJackson2HttpMessageConverter, times(1))
+        verify(this.mockedJacksonJsonHttpMessageConverter, times(1))
                 .write(this.viewModelArgumentCaptor.capture(),
                         eq(MediaType.APPLICATION_JSON), any(DelegatingServerHttpResponse.class));
 
@@ -78,13 +78,13 @@ class WithdrawPresenterTest {
         //Given
         var result = List.of("Error 14");
 
-        doNothing().when(this.mockedMappingJackson2HttpMessageConverter).write(any(ViewModel.class),
+        doNothing().when(this.mockedJacksonJsonHttpMessageConverter).write(any(ViewModel.class),
                 eq(MediaType.APPLICATION_JSON), any(DelegatingServerHttpResponse.class));
 
         //When
         this.withdrawPresenter.present(result);
 
-        verify(this.mockedMappingJackson2HttpMessageConverter, times(1))
+        verify(this.mockedJacksonJsonHttpMessageConverter, times(1))
                 .write(this.viewModelArgumentCaptor.capture(),
                         eq(MediaType.APPLICATION_JSON), any(DelegatingServerHttpResponse.class));
 

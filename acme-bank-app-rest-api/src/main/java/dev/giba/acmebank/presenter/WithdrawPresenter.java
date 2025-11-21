@@ -4,8 +4,9 @@ import dev.giba.acmebank.application.boundary.output.WithdrawResponse;
 import dev.giba.acmebank.application.boundary.output.WithdrawUseCaseOutput;
 import dev.giba.acmebank.view.ViewModel;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
@@ -15,9 +16,10 @@ import java.util.Objects;
 @Component
 @RequestScope
 public class WithdrawPresenter extends BasePresenter implements WithdrawUseCaseOutput {
+    @Autowired
     protected WithdrawPresenter(final HttpServletResponse servletResponse,
-                                           final MappingJackson2HttpMessageConverter jacksonConverter) {
-        super(servletResponse, jacksonConverter);
+                                final JacksonJsonHttpMessageConverter jacksonJsonHttpMessageConverter) {
+        super(servletResponse, jacksonJsonHttpMessageConverter);
     }
 
     @Override

@@ -13,7 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 import org.springframework.http.server.DelegatingServerHttpResponse;
 
 import java.io.IOException;
@@ -31,7 +31,7 @@ class GetAccountStatementPresenterTest {
     @Mock
     private HttpServletResponse mockedHttpServletResponse;
     @Mock
-    private MappingJackson2HttpMessageConverter mockedMappingJackson2HttpMessageConverter;
+    private JacksonJsonHttpMessageConverter mockedJacksonJsonHttpMessageConverter;
     @Captor
     private ArgumentCaptor<ViewModel> viewModelArgumentCaptor;
 
@@ -40,10 +40,10 @@ class GetAccountStatementPresenterTest {
     @BeforeEach
     void beforeEachTest() {
         reset(this.mockedHttpServletResponse);
-        reset(this.mockedMappingJackson2HttpMessageConverter);
+        reset(this.mockedJacksonJsonHttpMessageConverter);
 
         this.getAccountStatementPresenter = new GetAccountStatementPresenter(this.mockedHttpServletResponse,
-                this.mockedMappingJackson2HttpMessageConverter);
+                this.mockedJacksonJsonHttpMessageConverter);
     }
 
     @Test
@@ -54,14 +54,14 @@ class GetAccountStatementPresenterTest {
         var balance = BigDecimal.TEN;
         var getAccountStatementResponse = new GetAccountStatementResponse(number, balance, Collections.emptyList());
 
-        doNothing().when(this.mockedMappingJackson2HttpMessageConverter).write(any(ViewModel.class),
+        doNothing().when(this.mockedJacksonJsonHttpMessageConverter).write(any(ViewModel.class),
                 eq(MediaType.APPLICATION_JSON), any(DelegatingServerHttpResponse.class));
 
         //When
         this.getAccountStatementPresenter.present(getAccountStatementResponse);
 
         //Then
-        verify(this.mockedMappingJackson2HttpMessageConverter, times(1))
+        verify(this.mockedJacksonJsonHttpMessageConverter, times(1))
                 .write(this.viewModelArgumentCaptor.capture(),
                         eq(MediaType.APPLICATION_JSON), any(DelegatingServerHttpResponse.class));
 
@@ -79,14 +79,14 @@ class GetAccountStatementPresenterTest {
         //Given
         var result = List.of("Error 3");
 
-        doNothing().when(this.mockedMappingJackson2HttpMessageConverter).write(any(ViewModel.class),
+        doNothing().when(this.mockedJacksonJsonHttpMessageConverter).write(any(ViewModel.class),
                 eq(MediaType.APPLICATION_JSON), any(DelegatingServerHttpResponse.class));
 
         //When
         this.getAccountStatementPresenter.present(result);
 
         //Then
-        verify(this.mockedMappingJackson2HttpMessageConverter, times(1))
+        verify(this.mockedJacksonJsonHttpMessageConverter, times(1))
                 .write(this.viewModelArgumentCaptor.capture(),
                         eq(MediaType.APPLICATION_JSON), any(DelegatingServerHttpResponse.class));
 

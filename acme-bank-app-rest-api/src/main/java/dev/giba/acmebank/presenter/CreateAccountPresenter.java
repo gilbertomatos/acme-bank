@@ -4,8 +4,9 @@ import dev.giba.acmebank.application.boundary.output.CreateAccountResponse;
 import dev.giba.acmebank.application.boundary.output.CreateAccountUseCaseOutput;
 import dev.giba.acmebank.view.ViewModel;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.http.converter.json.JacksonJsonHttpMessageConverter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.RequestScope;
 
@@ -15,9 +16,10 @@ import java.util.Objects;
 @Component
 @RequestScope
 public class CreateAccountPresenter extends BasePresenter implements CreateAccountUseCaseOutput {
+    @Autowired
     protected CreateAccountPresenter(final HttpServletResponse httpServletResponse,
-                                     final MappingJackson2HttpMessageConverter jacksonConverter) {
-        super(httpServletResponse, jacksonConverter);
+                                     final JacksonJsonHttpMessageConverter jacksonJsonHttpMessageConverter) {
+        super(httpServletResponse, jacksonJsonHttpMessageConverter);
     }
 
     @Override

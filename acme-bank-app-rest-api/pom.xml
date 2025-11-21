@@ -17,7 +17,7 @@
         <maven-compiler-plugin.version>3.12.1</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>3.2.5</maven-surefire-plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.boot.version>3.5.7</spring.boot.version>
+        <spring.boot.version>4.0.0</spring.boot.version>
         <h2.version>2.2.224</h2.version>
         <assertj-core.version>3.27.6</assertj-core.version>
     </properties>
