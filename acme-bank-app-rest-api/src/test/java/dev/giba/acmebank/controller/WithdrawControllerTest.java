@@ -2,6 +2,7 @@ package dev.giba.acmebank.controller;
 
 import dev.giba.acmebank.application.boundary.input.WithdrawRequest;
 import dev.giba.acmebank.application.boundary.input.WithdrawUseCaseInput;
+import dev.giba.acmebank.dto.AccountOperationDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,11 +40,12 @@ class WithdrawControllerTest {
         //Given
         var number = "4567";
         var amount = BigDecimal.TEN;
+        var accountOperationDTO = new AccountOperationDTO(amount);
 
         doNothing().when(this.mockedWithdrawUseCaseInput).execute(any(WithdrawRequest.class));
 
         //When
-        this.withdrawController.withdraw(number, amount);
+        this.withdrawController.withdraw(number, accountOperationDTO);
 
         //Then
         verify(this.mockedWithdrawUseCaseInput, times(1))

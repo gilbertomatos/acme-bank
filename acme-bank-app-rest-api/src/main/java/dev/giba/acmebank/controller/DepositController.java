@@ -2,10 +2,11 @@ package dev.giba.acmebank.controller;
 
 import dev.giba.acmebank.application.boundary.input.DepositRequest;
 import dev.giba.acmebank.application.boundary.input.DepositUseCaseInput;
+import dev.giba.acmebank.dto.AccountOperationDTO;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 
 @RestController
@@ -21,7 +22,9 @@ public class DepositController {
 
     @PostMapping("/{accountNumber}/deposit")
     public void deposit(@PathVariable("accountNumber") String accountNumber,
-                                             @RequestParam("amount") BigDecimal amount) {
-        this.depositUseCaseInput.execute(new DepositRequest(accountNumber, amount));
+                        @Valid @RequestBody AccountOperationDTO accountOperationDTO) {
+        Objects.requireNonNull(accountNumber, "accountNumber is required");
+        Objects.requireNonNull(accountOperationDTO, "operationAmountDTO is required");
+        this.depositUseCaseInput.execute(new DepositRequest(accountNumber, accountOperationDTO.amount()));
     }
 }

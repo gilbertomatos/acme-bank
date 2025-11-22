@@ -2,10 +2,11 @@ package dev.giba.acmebank.controller;
 
 import dev.giba.acmebank.application.boundary.input.WithdrawRequest;
 import dev.giba.acmebank.application.boundary.input.WithdrawUseCaseInput;
+import dev.giba.acmebank.dto.AccountOperationDTO;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 
 @RestController
@@ -21,7 +22,9 @@ public class WithdrawController {
 
     @PostMapping("/{accountNumber}/withdraw")
     public void withdraw(@PathVariable("accountNumber") String accountNumber,
-                                             @RequestParam("amount") BigDecimal amount) {
-        this.withdrawUseCaseInput.execute(new WithdrawRequest(accountNumber, amount));
+                         @Valid @RequestBody AccountOperationDTO accountOperationDTO) {
+        Objects.requireNonNull(accountNumber, "accountNumber is required");
+        Objects.requireNonNull(accountOperationDTO, "operationAmountDTO is required");
+        this.withdrawUseCaseInput.execute(new WithdrawRequest(accountNumber, accountOperationDTO.amount()));
     }
 }

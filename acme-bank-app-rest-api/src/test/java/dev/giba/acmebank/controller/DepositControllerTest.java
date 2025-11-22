@@ -2,6 +2,7 @@ package dev.giba.acmebank.controller;
 
 import dev.giba.acmebank.application.boundary.input.DepositRequest;
 import dev.giba.acmebank.application.boundary.input.DepositUseCaseInput;
+import dev.giba.acmebank.dto.AccountOperationDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,11 +40,12 @@ class DepositControllerTest {
         //Given
         var number = "4567";
         var amount = BigDecimal.TEN;
+        var operationAmountDTO = new AccountOperationDTO(amount);
 
         doNothing().when(this.mockedDepositUseCaseInput).execute(any(DepositRequest.class));
 
         //When
-        this.depositController.deposit(number, amount);
+        this.depositController.deposit(number, operationAmountDTO);
 
         //Then
         verify(this.mockedDepositUseCaseInput, times(1))

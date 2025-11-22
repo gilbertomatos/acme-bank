@@ -70,22 +70,24 @@ Steps
 
 #### How to create an account:
 ```bash
-curl --location 'http://localhost:8080/api/accounts' --form 'accountNumber="<accountNumber>"'
+curl --location 'http://localhost:8080/api/accounts' --header 'Content-Type: application/json' --data '{"accountNumber": "<accountNumber>"}'
 ```
 
 #### How to make a deposit:
 ```bash
-curl --location 'http://localhost:8080/api/accounts/<acount number>/deposit' --form 'amount="<amount>"'
+curl --location 'http://localhost:8080/api/accounts/<accountNumber>/deposit' --header 'Content-Type: application/json' --data '{"amount": "<amount>"}'
 ```
 
 #### How to get the account statement:
 ```bash
 curl --location 'http://localhost:8080/api/accounts/<acount number>/statement'
 ```
+
 #### How to make a withdrawal:
 ```bash
-curl --location 'http://localhost:8080/api/accounts/<acount number>/withdraw' --form 'amount="<amount>"'
+curl --location 'http://localhost:8080/api/accounts/<accountNumber>/withdraw' --header 'Content-Type: application/json' --data '{"amount": "<amount>"}'
 ```
+
 ---
 
 📜 License

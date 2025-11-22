@@ -2,6 +2,7 @@ package dev.giba.acmebank.controller;
 
 import dev.giba.acmebank.application.boundary.input.CreateAccountRequest;
 import dev.giba.acmebank.application.boundary.input.CreateAccountUseCaseInput;
+import dev.giba.acmebank.dto.CreateAccountDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,11 +37,12 @@ class CreateAccountControllerTest {
     void shouldDepositCorrectly() {
         //Given
         var number = "890";
+        var createAccountDTO = new CreateAccountDTO(number);
 
         doNothing().when(this.mockedCreateAccountUseCaseInput).execute(any(CreateAccountRequest.class));
 
         //When
-        this.createAccountController.createAccount(number);
+        this.createAccountController.createAccount(createAccountDTO);
 
         //Then
         verify(this.mockedCreateAccountUseCaseInput, times(1))
