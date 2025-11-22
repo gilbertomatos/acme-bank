@@ -23,7 +23,6 @@ public class GetAccountStatementController {
 
     @GetMapping("/{accountNumber}/statement")
     public void getAccountStatement(@PathVariable("accountNumber") String accountNumber) {
-        Objects.requireNonNull(accountNumber, "accountNumber is required");
         this.getAccountStatementUseCaseInput.execute(new GetAccountStatementRequest(accountNumber));
     }
 }

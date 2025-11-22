@@ -23,8 +23,6 @@ public class WithdrawController {
     @PostMapping("/{accountNumber}/withdraw")
     public void withdraw(@PathVariable("accountNumber") String accountNumber,
                          @Valid @RequestBody AccountOperationDTO accountOperationDTO) {
-        Objects.requireNonNull(accountNumber, "accountNumber is required");
-        Objects.requireNonNull(accountOperationDTO, "operationAmountDTO is required");
         this.withdrawUseCaseInput.execute(new WithdrawRequest(accountNumber, accountOperationDTO.amount()));
     }
 }

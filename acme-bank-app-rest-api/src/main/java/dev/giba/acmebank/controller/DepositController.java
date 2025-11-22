@@ -23,8 +23,6 @@ public class DepositController {
     @PostMapping("/{accountNumber}/deposit")
     public void deposit(@PathVariable("accountNumber") String accountNumber,
                         @Valid @RequestBody AccountOperationDTO accountOperationDTO) {
-        Objects.requireNonNull(accountNumber, "accountNumber is required");
-        Objects.requireNonNull(accountOperationDTO, "operationAmountDTO is required");
         this.depositUseCaseInput.execute(new DepositRequest(accountNumber, accountOperationDTO.amount()));
     }
 }
