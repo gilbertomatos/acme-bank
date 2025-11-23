@@ -1,6 +1,6 @@
 package dev.giba.acmebank.infra.persistence.jpa.transaction;
 
-import dev.giba.acmebank.application.usecase.Transaction;
+import dev.giba.acmebank.domain.gateway.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;

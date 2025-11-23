@@ -1,7 +1,7 @@
 package dev.giba.acmebank.controller;
 
-import dev.giba.acmebank.application.boundary.input.CreateAccountRequest;
-import dev.giba.acmebank.application.boundary.input.CreateAccountUseCaseInput;
+import dev.giba.acmebank.application.usecase.createaccount.CreateAccountInputBoundary;
+import dev.giba.acmebank.application.usecase.createaccount.CreateAccountRequest;
 import dev.giba.acmebank.dto.CreateAccountDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,17 +15,17 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/api/accounts")
 public class CreateAccountController {
-    private final CreateAccountUseCaseInput createAccountUseCaseInput;
+    private final CreateAccountInputBoundary createAccountInputBoundary;
 
     @Autowired
-    public CreateAccountController(final CreateAccountUseCaseInput createAccountUseCaseInput){
-        this.createAccountUseCaseInput = Objects.requireNonNull(createAccountUseCaseInput,
+    public CreateAccountController(final CreateAccountInputBoundary createAccountInputBoundary){
+        this.createAccountInputBoundary = Objects.requireNonNull(createAccountInputBoundary,
                 "createAccountUseCaseInput is required");
     }
 
     @PostMapping
     public void createAccount(@Valid @RequestBody CreateAccountDTO createAccountDTO) {
         Objects.requireNonNull(createAccountDTO, "createAccountDTO is required");
-        this.createAccountUseCaseInput.execute(new CreateAccountRequest(createAccountDTO.accountNumber()));
+        this.createAccountInputBoundary.execute(new CreateAccountRequest(createAccountDTO.accountNumber()));
     }
 }

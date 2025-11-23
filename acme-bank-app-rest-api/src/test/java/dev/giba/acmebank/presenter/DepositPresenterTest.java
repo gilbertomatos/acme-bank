@@ -1,6 +1,6 @@
 package dev.giba.acmebank.presenter;
 
-import dev.giba.acmebank.application.boundary.output.DepositResponse;
+import dev.giba.acmebank.application.usecase.deposit.DepositResponse;
 import dev.giba.acmebank.view.ViewModel;
 import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.BeforeEach;

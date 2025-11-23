@@ -1,10 +1,12 @@
 package dev.giba.acmebank.application.usecase;
 
-import dev.giba.acmebank.application.boundary.input.WithdrawRequest;
-import dev.giba.acmebank.application.boundary.output.WithdrawResponse;
-import dev.giba.acmebank.application.boundary.output.WithdrawUseCaseOutput;
+import dev.giba.acmebank.application.usecase.withdraw.WithdrawRequest;
+import dev.giba.acmebank.application.usecase.withdraw.WithdrawResponse;
+import dev.giba.acmebank.application.usecase.withdraw.WithdrawUseCase;
+import dev.giba.acmebank.application.usecase.withdraw.WithdrawUseCaseOutput;
 import dev.giba.acmebank.domain.entity.Account;
 import dev.giba.acmebank.domain.gateway.AccountEntityGateway;
+import dev.giba.acmebank.domain.gateway.Transaction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

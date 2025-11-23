@@ -1,10 +1,7 @@
-package dev.giba.acmebank.application.usecase;
+package dev.giba.acmebank.application.usecase.withdraw;
 
-import dev.giba.acmebank.application.boundary.input.WithdrawRequest;
-import dev.giba.acmebank.application.boundary.input.WithdrawUseCaseInput;
-import dev.giba.acmebank.application.boundary.output.WithdrawResponse;
-import dev.giba.acmebank.application.boundary.output.WithdrawUseCaseOutput;
 import dev.giba.acmebank.domain.gateway.AccountEntityGateway;
+import dev.giba.acmebank.domain.gateway.Transaction;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;

@@ -1,11 +1,8 @@
-package dev.giba.acmebank.application.usecase;
+package dev.giba.acmebank.application.usecase.createaccount;
 
-import dev.giba.acmebank.application.boundary.input.CreateAccountRequest;
-import dev.giba.acmebank.application.boundary.input.CreateAccountUseCaseInput;
-import dev.giba.acmebank.application.boundary.output.CreateAccountResponse;
-import dev.giba.acmebank.application.boundary.output.CreateAccountUseCaseOutput;
 import dev.giba.acmebank.domain.entity.Account;
 import dev.giba.acmebank.domain.gateway.AccountEntityGateway;
+import dev.giba.acmebank.domain.gateway.Transaction;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -13,15 +10,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-public class CreateAccountUseCase implements CreateAccountUseCaseInput {
-    private final CreateAccountUseCaseOutput createAccountUseCaseOutput;
+public class CreateAccountUseCase implements CreateAccountInputBoundary {
+    private final CreateAccountOutputBoundary createAccountOutputBoundary;
     private final AccountEntityGateway accountEntityGateway;
     private final Transaction transaction;
 
-    public CreateAccountUseCase(final CreateAccountUseCaseOutput createAccountUseCaseOutput,
+    public CreateAccountUseCase(final CreateAccountOutputBoundary createAccountOutputBoundary,
                           final AccountEntityGateway accountEntityGateway,
                           final Transaction transaction) {
-        this.createAccountUseCaseOutput = Objects.requireNonNull(createAccountUseCaseOutput,
+        this.createAccountOutputBoundary = Objects.requireNonNull(createAccountOutputBoundary,
                 "createAccountUseCaseOutput is required");
         this.accountEntityGateway = Objects.requireNonNull(accountEntityGateway,
                 "accountEntityGateway is required");
@@ -36,7 +33,7 @@ public class CreateAccountUseCase implements CreateAccountUseCaseInput {
         var requestModelErrors = this.validateRequestModel(createAccountRequest);
 
         if (!requestModelErrors.isEmpty()) {
-            this.createAccountUseCaseOutput.present(requestModelErrors);
+            this.createAccountOutputBoundary.present(requestModelErrors);
             return;
         }
 
@@ -44,13 +41,13 @@ public class CreateAccountUseCase implements CreateAccountUseCaseInput {
             var optAccount = this.accountEntityGateway.findByNumber(createAccountRequest.accountNumber());
 
             optAccount.ifPresentOrElse( account ->
-                    this.createAccountUseCaseOutput.present(
+                    this.createAccountOutputBoundary.present(
                             List.of("Account already exists")), () -> {
 
                 var newAccount = new Account(null, createAccountRequest.accountNumber(), BigDecimal.ZERO,
                         Collections.emptyList());
                 this.accountEntityGateway.save(newAccount);
-                this.createAccountUseCaseOutput.present(new CreateAccountResponse(newAccount.number(),
+                this.createAccountOutputBoundary.present(new CreateAccountResponse(newAccount.number(),
                         newAccount.balance()));
             });
 

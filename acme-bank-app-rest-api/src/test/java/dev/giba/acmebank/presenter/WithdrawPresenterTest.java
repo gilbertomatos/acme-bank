@@ -1,6 +1,6 @@
 package dev.giba.acmebank.presenter;
 
-import dev.giba.acmebank.application.boundary.output.WithdrawResponse;
+import dev.giba.acmebank.application.usecase.withdraw.WithdrawResponse;
 import dev.giba.acmebank.view.ViewModel;
 import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.BeforeEach;

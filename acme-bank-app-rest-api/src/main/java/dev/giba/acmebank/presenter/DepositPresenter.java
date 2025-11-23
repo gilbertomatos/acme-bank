@@ -1,7 +1,7 @@
 package dev.giba.acmebank.presenter;
 
-import dev.giba.acmebank.application.boundary.output.DepositResponse;
-import dev.giba.acmebank.application.boundary.output.DepositUseCaseOutput;
+import dev.giba.acmebank.application.usecase.deposit.DepositOutputBoundary;
+import dev.giba.acmebank.application.usecase.deposit.DepositResponse;
 import dev.giba.acmebank.view.ViewModel;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.util.Objects;
 
 @Component
 @RequestScope
-public class DepositPresenter extends BasePresenter implements DepositUseCaseOutput {
+public class DepositPresenter extends BasePresenter implements DepositOutputBoundary {
     @Autowired
     protected DepositPresenter(final HttpServletResponse servletResponse,
                                final JacksonJsonHttpMessageConverter jacksonJsonHttpMessageConverter) {

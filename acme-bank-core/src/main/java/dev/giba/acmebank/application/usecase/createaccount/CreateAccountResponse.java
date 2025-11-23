@@ -1,4 +1,4 @@
-package dev.giba.acmebank.application.boundary.output;
+package dev.giba.acmebank.application.usecase.createaccount;
 
 import java.math.BigDecimal;
 

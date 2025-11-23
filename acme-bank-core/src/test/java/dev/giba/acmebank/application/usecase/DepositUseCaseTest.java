@@ -1,10 +1,12 @@
 package dev.giba.acmebank.application.usecase;
 
-import dev.giba.acmebank.application.boundary.input.DepositRequest;
-import dev.giba.acmebank.application.boundary.output.DepositResponse;
-import dev.giba.acmebank.application.boundary.output.DepositUseCaseOutput;
+import dev.giba.acmebank.application.usecase.deposit.DepositOutputBoundary;
+import dev.giba.acmebank.application.usecase.deposit.DepositRequest;
+import dev.giba.acmebank.application.usecase.deposit.DepositResponse;
+import dev.giba.acmebank.application.usecase.deposit.DepositUseCase;
 import dev.giba.acmebank.domain.entity.Account;
 import dev.giba.acmebank.domain.gateway.AccountEntityGateway;
+import dev.giba.acmebank.domain.gateway.Transaction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,7 +29,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class DepositUseCaseTest {
     @Mock
-    private DepositUseCaseOutput mockedDepositUseCaseOutput;
+    private DepositOutputBoundary mockedDepositOutputBoundary;
     @Mock
     private AccountEntityGateway mockedAccountEntityGateway;
     @Mock
@@ -43,11 +45,11 @@ class DepositUseCaseTest {
 
     @BeforeEach
     void beforeEachTest() {
-        reset(this.mockedDepositUseCaseOutput);
+        reset(this.mockedDepositOutputBoundary);
         reset(this.mockedAccountEntityGateway);
         reset(this.mockedTransaction);
 
-        this.depositUseCase = new DepositUseCase(this.mockedDepositUseCaseOutput, this.mockedAccountEntityGateway,
+        this.depositUseCase = new DepositUseCase(this.mockedDepositOutputBoundary, this.mockedAccountEntityGateway,
                 this.mockedTransaction);
     }
 
@@ -62,7 +64,7 @@ class DepositUseCaseTest {
         this.depositUseCase.execute(depositRequest);
 
         //Then
-        verify(this.mockedDepositUseCaseOutput, times(1))
+        verify(this.mockedDepositOutputBoundary, times(1))
                 .present(this.listArgumentCaptor.capture());
 
         assertThat(this.listArgumentCaptor.getValue())
@@ -81,7 +83,7 @@ class DepositUseCaseTest {
         this.depositUseCase.execute(depositRequest);
 
         //Then
-        verify(this.mockedDepositUseCaseOutput, times(1))
+        verify(this.mockedDepositOutputBoundary, times(1))
                 .present(this.listArgumentCaptor.capture());
 
         assertThat(this.listArgumentCaptor.getValue())
@@ -99,7 +101,7 @@ class DepositUseCaseTest {
         this.depositUseCase.execute(depositRequest);
 
         //Then
-        verify(this.mockedDepositUseCaseOutput, times(1))
+        verify(this.mockedDepositOutputBoundary, times(1))
                 .present(this.listArgumentCaptor.capture());
 
         assertThat(this.listArgumentCaptor.getValue())
@@ -118,7 +120,7 @@ class DepositUseCaseTest {
         this.depositUseCase.execute(depositRequest);
 
         //Then
-        verify(this.mockedDepositUseCaseOutput, times(1))
+        verify(this.mockedDepositOutputBoundary, times(1))
                 .present(this.listArgumentCaptor.capture());
 
         assertThat(this.listArgumentCaptor.getValue())
@@ -143,7 +145,7 @@ class DepositUseCaseTest {
         //Then
         verify(this.mockedTransaction, times(1)).execute(any(Runnable.class));
         verify(this.mockedAccountEntityGateway, times(1)).findByNumberForUpdate(number);
-        verify(this.mockedDepositUseCaseOutput, times(1))
+        verify(this.mockedDepositOutputBoundary, times(1))
                 .present(this.listArgumentCaptor.capture());
 
         assertThat(this.listArgumentCaptor.getValue())
@@ -176,7 +178,7 @@ class DepositUseCaseTest {
         verify(this.mockedAccountEntityGateway, times(1)).findByNumberForUpdate(number);
         verify(this.mockedAccountEntityGateway, times(1))
                 .save(this.accountArgumentCaptor.capture());
-        verify(this.mockedDepositUseCaseOutput, times(1))
+        verify(this.mockedDepositOutputBoundary, times(1))
                 .present(this.depositResponseArgumentCaptor.capture());
 
         assertEquals(number, this.accountArgumentCaptor.getValue().number());

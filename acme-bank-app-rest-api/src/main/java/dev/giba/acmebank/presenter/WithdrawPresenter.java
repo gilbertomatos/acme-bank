@@ -1,7 +1,7 @@
 package dev.giba.acmebank.presenter;
 
-import dev.giba.acmebank.application.boundary.output.WithdrawResponse;
-import dev.giba.acmebank.application.boundary.output.WithdrawUseCaseOutput;
+import dev.giba.acmebank.application.usecase.withdraw.WithdrawResponse;
+import dev.giba.acmebank.application.usecase.withdraw.WithdrawUseCaseOutput;
 import dev.giba.acmebank.view.ViewModel;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
 package dev.giba.acmebank.controller;
 
-import dev.giba.acmebank.application.boundary.input.WithdrawRequest;
-import dev.giba.acmebank.application.boundary.input.WithdrawUseCaseInput;
+import dev.giba.acmebank.application.usecase.withdraw.WithdrawRequest;
+import dev.giba.acmebank.application.usecase.withdraw.WithdrawUseCaseInput;
 import dev.giba.acmebank.dto.AccountOperationDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

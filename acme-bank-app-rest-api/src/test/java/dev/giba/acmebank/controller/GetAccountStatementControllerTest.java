@@ -1,7 +1,7 @@
 package dev.giba.acmebank.controller;
 
-import dev.giba.acmebank.application.boundary.input.GetAccountStatementRequest;
-import dev.giba.acmebank.application.boundary.input.GetAccountStatementUseCaseInput;
+import dev.giba.acmebank.application.usecase.getaccountstatement.GetAccountStatementInputBoundary;
+import dev.giba.acmebank.application.usecase.getaccountstatement.GetAccountStatementRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class GetAccountStatementControllerTest {
     @Mock
-    private GetAccountStatementUseCaseInput mockedGetAccountStatementUseCaseInput;
+    private GetAccountStatementInputBoundary mockedGetAccountStatementInputBoundary;
     @Captor
     private ArgumentCaptor<GetAccountStatementRequest> getAccountStatementRequestArgumentCaptor;
 
@@ -26,10 +26,10 @@ class GetAccountStatementControllerTest {
 
     @BeforeEach
     void beforeEachTest() {
-        reset(this.mockedGetAccountStatementUseCaseInput);
+        reset(this.mockedGetAccountStatementInputBoundary);
 
         this.getAccountStatementController = new GetAccountStatementController(
-                this.mockedGetAccountStatementUseCaseInput);
+                this.mockedGetAccountStatementInputBoundary);
     }
 
     @Test
@@ -38,13 +38,13 @@ class GetAccountStatementControllerTest {
         //Given
         var number = "890";
 
-        doNothing().when(this.mockedGetAccountStatementUseCaseInput).execute(any(GetAccountStatementRequest.class));
+        doNothing().when(this.mockedGetAccountStatementInputBoundary).execute(any(GetAccountStatementRequest.class));
 
         //When
         this.getAccountStatementController.getAccountStatement(number);
 
         //Then
-        verify(this.mockedGetAccountStatementUseCaseInput, times(1))
+        verify(this.mockedGetAccountStatementInputBoundary, times(1))
                 .execute(this.getAccountStatementRequestArgumentCaptor.capture());
 
         assertEquals(number, this.getAccountStatementRequestArgumentCaptor.getValue().accountNumber());

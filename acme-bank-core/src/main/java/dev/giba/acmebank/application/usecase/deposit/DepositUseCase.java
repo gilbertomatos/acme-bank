@@ -1,10 +1,7 @@
-package dev.giba.acmebank.application.usecase;
+package dev.giba.acmebank.application.usecase.deposit;
 
-import dev.giba.acmebank.application.boundary.input.DepositRequest;
-import dev.giba.acmebank.application.boundary.input.DepositUseCaseInput;
-import dev.giba.acmebank.application.boundary.output.DepositResponse;
-import dev.giba.acmebank.application.boundary.output.DepositUseCaseOutput;
 import dev.giba.acmebank.domain.gateway.AccountEntityGateway;
+import dev.giba.acmebank.domain.gateway.Transaction;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -12,16 +9,16 @@ import java.util.List;
 import java.util.Objects;
 
 
-public class DepositUseCase implements DepositUseCaseInput {
-    private final DepositUseCaseOutput depositUseCaseOutput;
+public class DepositUseCase implements DepositInputBoundary {
+    private final DepositOutputBoundary depositOutputBoundary;
     private final AccountEntityGateway accountEntityGateway;
     private final Transaction transaction;
 
 
-    public DepositUseCase(final DepositUseCaseOutput depositUseCaseOutput,
+    public DepositUseCase(final DepositOutputBoundary depositOutputBoundary,
                           final AccountEntityGateway accountEntityGateway,
                           final Transaction transaction) {
-        this.depositUseCaseOutput = Objects.requireNonNull(depositUseCaseOutput,
+        this.depositOutputBoundary = Objects.requireNonNull(depositOutputBoundary,
                 "depositUseCaseOutput is required");
         this.accountEntityGateway = Objects.requireNonNull(accountEntityGateway,
                 "accountEntityGateway is required");
@@ -35,7 +32,7 @@ public class DepositUseCase implements DepositUseCaseInput {
         var requestModelErrors = this.validateRequestModel(depositRequest);
 
         if (!requestModelErrors.isEmpty()) {
-            this.depositUseCaseOutput.present(requestModelErrors);
+            this.depositOutputBoundary.present(requestModelErrors);
             return;
         }
 
@@ -46,10 +43,10 @@ public class DepositUseCase implements DepositUseCaseInput {
 
                 var updatedAccount = account.deposit(depositRequest.amount());
                 this.accountEntityGateway.save(updatedAccount);
-                this.depositUseCaseOutput.present(new DepositResponse(updatedAccount.number(),
+                this.depositOutputBoundary.present(new DepositResponse(updatedAccount.number(),
                         updatedAccount.balance()));
 
-            }, () -> this.depositUseCaseOutput.present(List.of("Account not found")));
+            }, () -> this.depositOutputBoundary.present(List.of("Account not found")));
          
         });
 

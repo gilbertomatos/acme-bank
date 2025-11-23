@@ -1,4 +1,4 @@
-package dev.giba.acmebank.application.boundary.input;
+package dev.giba.acmebank.application.usecase.createaccount;
 
 public record CreateAccountRequest(String accountNumber) {
 }

@@ -1,12 +1,14 @@
 package dev.giba.acmebank.application.usecase;
 
-import dev.giba.acmebank.application.boundary.input.GetAccountStatementRequest;
-import dev.giba.acmebank.application.boundary.output.GetAccountStatementResponse;
-import dev.giba.acmebank.application.boundary.output.GetAccountStatementUseCaseOutput;
+import dev.giba.acmebank.application.usecase.getaccountstatement.GetAccountStatementOutputBoundary;
+import dev.giba.acmebank.application.usecase.getaccountstatement.GetAccountStatementRequest;
+import dev.giba.acmebank.application.usecase.getaccountstatement.GetAccountStatementResponse;
+import dev.giba.acmebank.application.usecase.getaccountstatement.GetAccountStatementUseCase;
 import dev.giba.acmebank.domain.entity.Account;
 import dev.giba.acmebank.domain.entity.AccountTransaction;
 import dev.giba.acmebank.domain.entity.TransactionType;
 import dev.giba.acmebank.domain.gateway.AccountEntityGateway;
+import dev.giba.acmebank.domain.gateway.ReadOnlyTransaction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,7 +30,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class GetAccountStatementUseCaseTest {
     @Mock
-    private GetAccountStatementUseCaseOutput mockedGetAccountStatementUseCaseOutput;
+    private GetAccountStatementOutputBoundary mockedGetAccountStatementOutputBoundary;
     @Mock
     private AccountEntityGateway mockedAccountEntityGateway;
     @Mock
@@ -42,11 +44,11 @@ class GetAccountStatementUseCaseTest {
 
     @BeforeEach
     void beforeEachTest() {
-        reset(this.mockedGetAccountStatementUseCaseOutput);
+        reset(this.mockedGetAccountStatementOutputBoundary);
         reset(this.mockedAccountEntityGateway);
         reset(this.mockedReadOnlyTransaction);
 
-        this.getAccountStatementUseCase = new GetAccountStatementUseCase(this.mockedGetAccountStatementUseCaseOutput,
+        this.getAccountStatementUseCase = new GetAccountStatementUseCase(this.mockedGetAccountStatementOutputBoundary,
                 this.mockedAccountEntityGateway, this.mockedReadOnlyTransaction);
     }
 
@@ -60,7 +62,7 @@ class GetAccountStatementUseCaseTest {
         this.getAccountStatementUseCase.execute(getAccountStatementRequest);
 
         //Then
-        verify(this.mockedGetAccountStatementUseCaseOutput, times(1))
+        verify(this.mockedGetAccountStatementOutputBoundary, times(1))
                 .present(this.listArgumentCaptor.capture());
 
         assertThat(this.listArgumentCaptor.getValue())
@@ -78,7 +80,7 @@ class GetAccountStatementUseCaseTest {
         this.getAccountStatementUseCase.execute(getAccountStatementRequest);
 
         //Then
-        verify(this.mockedGetAccountStatementUseCaseOutput, times(1))
+        verify(this.mockedGetAccountStatementOutputBoundary, times(1))
                 .present(this.listArgumentCaptor.capture());
 
         assertThat(this.listArgumentCaptor.getValue())
@@ -102,7 +104,7 @@ class GetAccountStatementUseCaseTest {
         //Then
         verify(this.mockedReadOnlyTransaction, times(1)).execute(any(Runnable.class));
         verify(this.mockedAccountEntityGateway, times(1)).findByNumber(number);
-        verify(this.mockedGetAccountStatementUseCaseOutput, times(1))
+        verify(this.mockedGetAccountStatementOutputBoundary, times(1))
                 .present(this.listArgumentCaptor.capture());
 
         assertThat(this.listArgumentCaptor.getValue())
@@ -135,7 +137,7 @@ class GetAccountStatementUseCaseTest {
         verify(this.mockedReadOnlyTransaction, times(1)).execute(any(Runnable.class));
         verify(this.mockedAccountEntityGateway, times(1)).findByNumber(number);
 
-        verify(this.mockedGetAccountStatementUseCaseOutput, times(1))
+        verify(this.mockedGetAccountStatementOutputBoundary, times(1))
                 .present(this.getAccountStatementResponseArgumentCaptor.capture());
 
         assertEquals(number, this.getAccountStatementResponseArgumentCaptor.getValue().accountNumber());

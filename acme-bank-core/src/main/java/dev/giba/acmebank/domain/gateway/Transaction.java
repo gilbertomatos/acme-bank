@@ -1,4 +1,4 @@
-package dev.giba.acmebank.application.usecase;
+package dev.giba.acmebank.domain.gateway;
 
 @FunctionalInterface
 public interface Transaction {

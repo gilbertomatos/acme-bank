@@ -1,15 +1,20 @@
 package dev.giba.acmebank.config;
 
-import dev.giba.acmebank.application.boundary.input.CreateAccountUseCaseInput;
-import dev.giba.acmebank.application.boundary.input.DepositUseCaseInput;
-import dev.giba.acmebank.application.boundary.input.GetAccountStatementUseCaseInput;
-import dev.giba.acmebank.application.boundary.input.WithdrawUseCaseInput;
-import dev.giba.acmebank.application.boundary.output.CreateAccountUseCaseOutput;
-import dev.giba.acmebank.application.boundary.output.DepositUseCaseOutput;
-import dev.giba.acmebank.application.boundary.output.GetAccountStatementUseCaseOutput;
-import dev.giba.acmebank.application.boundary.output.WithdrawUseCaseOutput;
-import dev.giba.acmebank.application.usecase.*;
+import dev.giba.acmebank.application.usecase.createaccount.CreateAccountInputBoundary;
+import dev.giba.acmebank.application.usecase.createaccount.CreateAccountOutputBoundary;
+import dev.giba.acmebank.application.usecase.createaccount.CreateAccountUseCase;
+import dev.giba.acmebank.application.usecase.deposit.DepositInputBoundary;
+import dev.giba.acmebank.application.usecase.deposit.DepositOutputBoundary;
+import dev.giba.acmebank.application.usecase.deposit.DepositUseCase;
+import dev.giba.acmebank.application.usecase.getaccountstatement.GetAccountStatementInputBoundary;
+import dev.giba.acmebank.application.usecase.getaccountstatement.GetAccountStatementOutputBoundary;
+import dev.giba.acmebank.application.usecase.getaccountstatement.GetAccountStatementUseCase;
+import dev.giba.acmebank.application.usecase.withdraw.WithdrawUseCase;
+import dev.giba.acmebank.application.usecase.withdraw.WithdrawUseCaseInput;
+import dev.giba.acmebank.application.usecase.withdraw.WithdrawUseCaseOutput;
 import dev.giba.acmebank.domain.gateway.AccountEntityGateway;
+import dev.giba.acmebank.domain.gateway.ReadOnlyTransaction;
+import dev.giba.acmebank.domain.gateway.Transaction;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,26 +22,26 @@ import org.springframework.context.annotation.Configuration;
 public class ApplicationUseCaseConfig {
 
     @Bean
-    public CreateAccountUseCaseInput createAccountUseCaseInput(
-            final CreateAccountUseCaseOutput createAccountUseCaseOutput,
+    public CreateAccountInputBoundary createAccountUseCaseInput(
+            final CreateAccountOutputBoundary createAccountOutputBoundary,
             final AccountEntityGateway accountEntityGateway,
             final Transaction transaction) {
-        return new CreateAccountUseCase(createAccountUseCaseOutput, accountEntityGateway, transaction);
+        return new CreateAccountUseCase(createAccountOutputBoundary, accountEntityGateway, transaction);
     }
 
     @Bean
-    public DepositUseCaseInput depositUseCaseInput(final DepositUseCaseOutput depositUseCaseOutput,
-                                                   final AccountEntityGateway accountEntityGateway,
-                                                   final Transaction transaction) {
-        return new DepositUseCase(depositUseCaseOutput, accountEntityGateway, transaction);
+    public DepositInputBoundary depositUseCaseInput(final DepositOutputBoundary depositOutputBoundary,
+                                                    final AccountEntityGateway accountEntityGateway,
+                                                    final Transaction transaction) {
+        return new DepositUseCase(depositOutputBoundary, accountEntityGateway, transaction);
     }
 
     @Bean
-    public GetAccountStatementUseCaseInput getAccountStatementUseCaseInput(
-            final GetAccountStatementUseCaseOutput getAccountStatementUseCaseOutput,
+    public GetAccountStatementInputBoundary getAccountStatementUseCaseInput(
+            final GetAccountStatementOutputBoundary getAccountStatementOutputBoundary,
             final AccountEntityGateway accountEntityGateway,
             final ReadOnlyTransaction readOnlyTransaction) {
-        return new GetAccountStatementUseCase(getAccountStatementUseCaseOutput, accountEntityGateway,
+        return new GetAccountStatementUseCase(getAccountStatementOutputBoundary, accountEntityGateway,
                 readOnlyTransaction);
     }
 

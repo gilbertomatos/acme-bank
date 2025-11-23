@@ -1,7 +1,7 @@
 package dev.giba.acmebank.controller;
 
-import dev.giba.acmebank.application.boundary.input.CreateAccountRequest;
-import dev.giba.acmebank.application.boundary.input.CreateAccountUseCaseInput;
+import dev.giba.acmebank.application.usecase.createaccount.CreateAccountInputBoundary;
+import dev.giba.acmebank.application.usecase.createaccount.CreateAccountRequest;
 import dev.giba.acmebank.dto.CreateAccountDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class CreateAccountControllerTest {
     @Mock
-    private CreateAccountUseCaseInput mockedCreateAccountUseCaseInput;
+    private CreateAccountInputBoundary mockedCreateAccountInputBoundary;
     @Captor
     private ArgumentCaptor<CreateAccountRequest> createAccountRequestArgumentCaptor;
 
@@ -27,9 +27,9 @@ class CreateAccountControllerTest {
 
     @BeforeEach
     void beforeEachTest() {
-        reset(this.mockedCreateAccountUseCaseInput);
+        reset(this.mockedCreateAccountInputBoundary);
 
-        this.createAccountController = new CreateAccountController(this.mockedCreateAccountUseCaseInput);
+        this.createAccountController = new CreateAccountController(this.mockedCreateAccountInputBoundary);
     }
 
     @Test
@@ -39,13 +39,13 @@ class CreateAccountControllerTest {
         var number = "890";
         var createAccountDTO = new CreateAccountDTO(number);
 
-        doNothing().when(this.mockedCreateAccountUseCaseInput).execute(any(CreateAccountRequest.class));
+        doNothing().when(this.mockedCreateAccountInputBoundary).execute(any(CreateAccountRequest.class));
 
         //When
         this.createAccountController.createAccount(createAccountDTO);
 
         //Then
-        verify(this.mockedCreateAccountUseCaseInput, times(1))
+        verify(this.mockedCreateAccountInputBoundary, times(1))
                 .execute(this.createAccountRequestArgumentCaptor.capture());
 
         assertEquals(number, this.createAccountRequestArgumentCaptor.getValue().accountNumber());

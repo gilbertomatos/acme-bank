@@ -1,6 +1,6 @@
 package dev.giba.acmebank.presenter;
 
-import dev.giba.acmebank.application.boundary.output.GetAccountStatementResponse;
+import dev.giba.acmebank.application.usecase.getaccountstatement.GetAccountStatementResponse;
 import dev.giba.acmebank.view.ViewModel;
 import jakarta.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.BeforeEach;

@@ -1,7 +1,7 @@
 package dev.giba.acmebank.controller;
 
-import dev.giba.acmebank.application.boundary.input.DepositRequest;
-import dev.giba.acmebank.application.boundary.input.DepositUseCaseInput;
+import dev.giba.acmebank.application.usecase.deposit.DepositInputBoundary;
+import dev.giba.acmebank.application.usecase.deposit.DepositRequest;
 import dev.giba.acmebank.dto.AccountOperationDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -21,7 +21,7 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class DepositControllerTest {
     @Mock
-    private DepositUseCaseInput mockedDepositUseCaseInput;
+    private DepositInputBoundary mockedDepositInputBoundary;
     @Captor
     private ArgumentCaptor<DepositRequest> depositRequestArgumentCaptor;
 
@@ -29,9 +29,9 @@ class DepositControllerTest {
 
     @BeforeEach
     void beforeEachTest() {
-        reset(this.mockedDepositUseCaseInput);
+        reset(this.mockedDepositInputBoundary);
 
-        this.depositController = new DepositController(this.mockedDepositUseCaseInput);
+        this.depositController = new DepositController(this.mockedDepositInputBoundary);
     }
 
     @Test
@@ -42,13 +42,13 @@ class DepositControllerTest {
         var amount = BigDecimal.TEN;
         var operationAmountDTO = new AccountOperationDTO(amount);
 
-        doNothing().when(this.mockedDepositUseCaseInput).execute(any(DepositRequest.class));
+        doNothing().when(this.mockedDepositInputBoundary).execute(any(DepositRequest.class));
 
         //When
         this.depositController.deposit(number, operationAmountDTO);
 
         //Then
-        verify(this.mockedDepositUseCaseInput, times(1))
+        verify(this.mockedDepositInputBoundary, times(1))
                 .execute(this.depositRequestArgumentCaptor.capture());
 
         assertEquals(number, this.depositRequestArgumentCaptor.getValue().accountNumber());

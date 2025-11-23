@@ -1,7 +1,7 @@
 package dev.giba.acmebank.presenter;
 
-import dev.giba.acmebank.application.boundary.output.GetAccountStatementResponse;
-import dev.giba.acmebank.application.boundary.output.GetAccountStatementUseCaseOutput;
+import dev.giba.acmebank.application.usecase.getaccountstatement.GetAccountStatementOutputBoundary;
+import dev.giba.acmebank.application.usecase.getaccountstatement.GetAccountStatementResponse;
 import dev.giba.acmebank.view.ViewModel;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ import java.util.Objects;
 
 @Component
 @RequestScope
-public class GetAccountStatementPresenter extends BasePresenter implements GetAccountStatementUseCaseOutput {
+public class GetAccountStatementPresenter extends BasePresenter implements GetAccountStatementOutputBoundary {
     @Autowired
     protected GetAccountStatementPresenter(final HttpServletResponse servletResponse,
                                            final JacksonJsonHttpMessageConverter jacksonJsonHttpMessageConverter) {

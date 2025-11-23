@@ -1,10 +1,12 @@
 package dev.giba.acmebank.application.usecase;
 
-import dev.giba.acmebank.application.boundary.input.CreateAccountRequest;
-import dev.giba.acmebank.application.boundary.output.CreateAccountResponse;
-import dev.giba.acmebank.application.boundary.output.CreateAccountUseCaseOutput;
+import dev.giba.acmebank.application.usecase.createaccount.CreateAccountOutputBoundary;
+import dev.giba.acmebank.application.usecase.createaccount.CreateAccountRequest;
+import dev.giba.acmebank.application.usecase.createaccount.CreateAccountResponse;
+import dev.giba.acmebank.application.usecase.createaccount.CreateAccountUseCase;
 import dev.giba.acmebank.domain.entity.Account;
 import dev.giba.acmebank.domain.gateway.AccountEntityGateway;
+import dev.giba.acmebank.domain.gateway.Transaction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,7 +30,7 @@ import static org.mockito.Mockito.*;
 class CreateAccountUseCaseTest {
 
     @Mock
-    private CreateAccountUseCaseOutput mockedCreateAccountUseCaseOutput;
+    private CreateAccountOutputBoundary mockedCreateAccountOutputBoundary;
     @Mock
     private AccountEntityGateway mockedAccountEntityGateway;
     @Mock
@@ -44,11 +46,11 @@ class CreateAccountUseCaseTest {
 
     @BeforeEach
     void beforeEachTest() {
-        reset(this.mockedCreateAccountUseCaseOutput);
+        reset(this.mockedCreateAccountOutputBoundary);
         reset(this.mockedAccountEntityGateway);
         reset(this.mockedTransaction);
 
-        this.createAccountUseCase = new CreateAccountUseCase(this.mockedCreateAccountUseCaseOutput,
+        this.createAccountUseCase = new CreateAccountUseCase(this.mockedCreateAccountOutputBoundary,
                 this.mockedAccountEntityGateway, this.mockedTransaction);
     }
 
@@ -62,7 +64,7 @@ class CreateAccountUseCaseTest {
         this.createAccountUseCase.execute(createAccountRequest);
 
         //Then
-        verify(this.mockedCreateAccountUseCaseOutput, times(1))
+        verify(this.mockedCreateAccountOutputBoundary, times(1))
                 .present(this.listArgumentCaptor.capture());
 
         assertThat(this.listArgumentCaptor.getValue())
@@ -80,7 +82,7 @@ class CreateAccountUseCaseTest {
         this.createAccountUseCase.execute(createAccountRequest);
 
         //Then
-        verify(this.mockedCreateAccountUseCaseOutput, times(1))
+        verify(this.mockedCreateAccountOutputBoundary, times(1))
                 .present(this.listArgumentCaptor.capture());
 
         assertThat(this.listArgumentCaptor.getValue())
@@ -108,7 +110,7 @@ class CreateAccountUseCaseTest {
         //Then
         verify(this.mockedTransaction, times(1)).execute(any(Runnable.class));
         verify(this.mockedAccountEntityGateway, times(1)).findByNumber(number);
-        verify(this.mockedCreateAccountUseCaseOutput, times(1))
+        verify(this.mockedCreateAccountOutputBoundary, times(1))
                 .present(this.listArgumentCaptor.capture());
 
         assertThat(this.listArgumentCaptor.getValue())
@@ -138,7 +140,7 @@ class CreateAccountUseCaseTest {
         verify(this.mockedAccountEntityGateway, times(1)).findByNumber(number);
         verify(this.mockedAccountEntityGateway, times(1))
                 .save(this.accountArgumentCaptor.capture());
-        verify(this.mockedCreateAccountUseCaseOutput, times(1))
+        verify(this.mockedCreateAccountOutputBoundary, times(1))
                 .present(this.accountResponseArgumentCaptor.capture());
 
         assertEquals(number, this.accountArgumentCaptor.getValue().number());

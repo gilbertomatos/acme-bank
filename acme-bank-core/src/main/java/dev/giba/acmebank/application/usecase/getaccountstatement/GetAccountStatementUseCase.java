@@ -1,25 +1,22 @@
-package dev.giba.acmebank.application.usecase;
+package dev.giba.acmebank.application.usecase.getaccountstatement;
 
-import dev.giba.acmebank.application.boundary.input.GetAccountStatementRequest;
-import dev.giba.acmebank.application.boundary.input.GetAccountStatementUseCaseInput;
-import dev.giba.acmebank.application.boundary.output.GetAccountStatementResponse;
-import dev.giba.acmebank.application.boundary.output.GetAccountStatementUseCaseOutput;
 import dev.giba.acmebank.domain.entity.AccountTransaction;
 import dev.giba.acmebank.domain.gateway.AccountEntityGateway;
+import dev.giba.acmebank.domain.gateway.ReadOnlyTransaction;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class GetAccountStatementUseCase implements GetAccountStatementUseCaseInput {
-    private final GetAccountStatementUseCaseOutput getAccountStatementUseCaseOutput;
+public class GetAccountStatementUseCase implements GetAccountStatementInputBoundary {
+    private final GetAccountStatementOutputBoundary getAccountStatementOutputBoundary;
     private final AccountEntityGateway accountEntityGateway;
     private final ReadOnlyTransaction readOnlyTransaction;
 
-    public GetAccountStatementUseCase(final GetAccountStatementUseCaseOutput getAccountStatementUseCaseOutput,
+    public GetAccountStatementUseCase(final GetAccountStatementOutputBoundary getAccountStatementOutputBoundary,
                                       final AccountEntityGateway accountEntityGateway,
                                       final ReadOnlyTransaction readOnlyTransaction) {
-        this.getAccountStatementUseCaseOutput = Objects.requireNonNull(getAccountStatementUseCaseOutput,
+        this.getAccountStatementOutputBoundary = Objects.requireNonNull(getAccountStatementOutputBoundary,
                 "getAccountStatementUseCaseOutput is required");
         this.accountEntityGateway = Objects.requireNonNull(accountEntityGateway,
                 "accountEntityGateway is required");
@@ -34,18 +31,18 @@ public class GetAccountStatementUseCase implements GetAccountStatementUseCaseInp
         var requestModelErrors = this.validateRequestModel(getAccountStatementRequest);
 
         if (!requestModelErrors.isEmpty()) {
-            this.getAccountStatementUseCaseOutput.present(requestModelErrors);
+            this.getAccountStatementOutputBoundary.present(requestModelErrors);
             return;
         }
 
         this.readOnlyTransaction.execute(() -> {
             var optAccount = this.accountEntityGateway.findByNumber(getAccountStatementRequest.accountNumber());
-            optAccount.ifPresentOrElse( account -> this.getAccountStatementUseCaseOutput.present(
+            optAccount.ifPresentOrElse( account -> this.getAccountStatementOutputBoundary.present(
                     new GetAccountStatementResponse(account.number(), account.balance(),
                             account.transactions().stream()
                                     .map(AccountTransaction::format).toList()
                     )
-            ), () -> this.getAccountStatementUseCaseOutput.present(List.of("Account not found")));
+            ), () -> this.getAccountStatementOutputBoundary.present(List.of("Account not found")));
 
         });
     }

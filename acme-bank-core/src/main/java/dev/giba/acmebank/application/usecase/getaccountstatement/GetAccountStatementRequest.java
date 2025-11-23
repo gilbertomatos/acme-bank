@@ -1,4 +1,4 @@
-package dev.giba.acmebank.application.boundary.input;
+package dev.giba.acmebank.application.usecase.getaccountstatement;
 
 public record GetAccountStatementRequest(String accountNumber) {
 }
