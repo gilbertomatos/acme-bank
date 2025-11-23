@@ -5,5 +5,5 @@
  /  _____  \ |  `----.|  |  |  | |  |____    |  |_)  |  /  _____  \  |  |\   | |  .  \
 /__/     \__\ \______||__|  |__| |_______|   |______/  /__/     \__\ |__| \__| |__|\__\
 
-${application.title} ${application.version}
-Powered by Spring Boot ${spring-boot.version}
+Active Profile: ${spring.profiles.active}
+Spring Boot Version: ${spring-boot.version}
