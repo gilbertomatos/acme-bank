@@ -1,5 +1,6 @@
 package dev.giba.acmebank.application.usecase.withdraw;
 
+import dev.giba.acmebank.domain.entity.Account;
 import dev.giba.acmebank.domain.gateway.AccountEntityGateway;
 import dev.giba.acmebank.domain.gateway.Transaction;
 
@@ -40,14 +41,18 @@ public class WithdrawUseCase implements WithdrawUseCaseInput {
             var optAccount = this.accountEntityGateway.findByNumberForUpdate(withdrawRequest.accountNumber());
 
             optAccount.ifPresentOrElse( account -> {
+
+                Account updatedAccount;
                 try {
-                    var updatedAccount = account.withdraw(withdrawRequest.amount());
-                    this.accountEntityGateway.save(updatedAccount);
-                    this.withdrawUseCaseOutput.present((new WithdrawResponse(updatedAccount.number(),
-                            updatedAccount.balance())));
+                    updatedAccount = account.withdraw(withdrawRequest.amount());
                 } catch (IllegalArgumentException e) {
                     this.withdrawUseCaseOutput.present(List.of(e.getMessage()));
+                    return;
                 }
+
+                this.accountEntityGateway.save(updatedAccount);
+                this.withdrawUseCaseOutput.present((new WithdrawResponse(updatedAccount.number(),
+                        updatedAccount.balance())));
 
             }, () -> this.withdrawUseCaseOutput.present(List.of("Account not found")));
          

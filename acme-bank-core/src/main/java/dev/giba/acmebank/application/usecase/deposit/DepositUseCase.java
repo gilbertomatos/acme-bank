@@ -1,5 +1,6 @@
 package dev.giba.acmebank.application.usecase.deposit;
 
+import dev.giba.acmebank.domain.entity.Account;
 import dev.giba.acmebank.domain.gateway.AccountEntityGateway;
 import dev.giba.acmebank.domain.gateway.Transaction;
 
@@ -41,7 +42,14 @@ public class DepositUseCase implements DepositInputBoundary {
 
             optAccount.ifPresentOrElse( account -> {
 
-                var updatedAccount = account.deposit(depositRequest.amount());
+                Account updatedAccount;
+                try {
+                    updatedAccount = account.deposit(depositRequest.amount());
+                } catch (IllegalArgumentException e) {
+                    this.depositOutputBoundary.present(List.of(e.getMessage()));
+                    return;
+                }
+
                 this.accountEntityGateway.save(updatedAccount);
                 this.depositOutputBoundary.present(new DepositResponse(updatedAccount.number(),
                         updatedAccount.balance()));
