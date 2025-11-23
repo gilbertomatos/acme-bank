@@ -50,20 +50,6 @@ class AccountOperationDTOTest {
     }
 
     @Test
-    @DisplayName("Should have a violation when the amount is not positive")
-    void shouldHaveAViolationWhenTheAmountIsNotPositive() {
-        //Given
-        var accountOperationDTO = new AccountOperationDTO(new BigDecimal("-100.00"));
-
-        //When
-        var validations = this.validator.validate(accountOperationDTO).stream()
-                .map(ConstraintViolation::getMessage).toList();
-
-        //Then
-        assertThat(validations).contains("amount must be positive");
-    }
-
-    @Test
     @DisplayName("Should have a violation when the amount is lower or equals zero")
     void shouldHaveAViolationWhenTheAccountNumberIsLowerOrEqualsZero() {
         //Given
